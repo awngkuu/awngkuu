@@ -5,49 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize Lucide Icons
   lucide.createIcons();
 
-  // 1. Custom Cursor setup (keeps behavior matched to homepage)
-  const cursorDot = document.getElementById("custom-cursor-dot");
-  const cursorRing = document.getElementById("custom-cursor-ring");
-
-  gsap.set(cursorDot, { xPercent: -50, yPercent: -50 });
-  gsap.set(cursorRing, { xPercent: -50, yPercent: -50 });
-
-  window.addEventListener("mousemove", (e) => {
-    const { clientX, clientY } = e;
-    gsap.to(cursorDot, { x: clientX, y: clientY, duration: 0 });
-    gsap.to(cursorRing, { x: clientX, y: clientY, duration: 0.4, ease: "power3.out" });
-  });
-
-  document.addEventListener("mouseover", (e) => {
-    const target = e.target.closest("a, button, [data-hover='true']");
-    if (target) {
-      gsap.to(cursorRing, {
-        scale: 2.0,
-        backgroundColor: "rgba(244, 63, 94, 0.15)",
-        borderColor: "rgba(244, 63, 94, 0.8)",
-        borderWidth: "1.5px",
-        duration: 0.3
-      });
-      gsap.to(cursorDot, {
-        scale: 0.4,
-        backgroundColor: "#f43f5e",
-        duration: 0.3
-      });
-    } else {
-      gsap.to(cursorRing, {
-        scale: 1,
-        backgroundColor: "transparent",
-        borderColor: "rgba(255, 255, 255, 0.4)",
-        borderWidth: "1px",
-        duration: 0.3
-      });
-      gsap.to(cursorDot, {
-        scale: 1,
-        backgroundColor: "#ffffff",
-        duration: 0.3
-      });
-    }
-  });
+  // Custom Cursor Disabled - Default cursor active
 
   // 2. Custom Magnetic vectors for return button or tilt cards
   document.addEventListener("mousemove", (e) => {
