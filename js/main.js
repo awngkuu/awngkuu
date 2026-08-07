@@ -363,7 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div id="journey-node-${item.id}" class="absolute left-4 md:left-1/2 top-6 md:top-1/2 w-4 h-4 rounded-full bg-zinc-900 border-2 border-zinc-700 -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-300"></div>
         
         <!-- Card side -->
-        <div class="w-full md:w-1/2 pl-12 pr-0 md:px-12 text-left">
+        <div class="w-full md:w-1/2 pl-10 pr-4 md:px-12 text-left">
           <div id="journey-card-${item.id}" class="opacity-0 translate-y-8 transition-all duration-700">
             <div class="glass relative overflow-hidden rounded-2xl p-6 transition-all duration-500 ease-out" data-tilt="true" glow-color="${isEven ? "rgba(16, 185, 129, 0.15)" : "rgba(34, 197, 94, 0.15)"}">
               <div class="flex justify-between items-center mb-3">
@@ -772,7 +772,25 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power3.in"
       });
     });
+  // 14. Mobile Navigation Menu handlers
+  const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+  const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
+  const mobileMenuClose = document.getElementById("mobile-menu-close");
+
+  if (mobileMenuToggle && mobileMenuOverlay && mobileMenuClose) {
+    mobileMenuToggle.addEventListener("click", () => {
+      mobileMenuOverlay.classList.remove("translate-x-full");
+    });
+    mobileMenuClose.addEventListener("click", () => {
+      mobileMenuOverlay.classList.add("translate-x-full");
+    });
   }
+
+  window.closeMobileMenu = function() {
+    if (mobileMenuOverlay) {
+      mobileMenuOverlay.classList.add("translate-x-full");
+    }
+  };
 
 });
 
