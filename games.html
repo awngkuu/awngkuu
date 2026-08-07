@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games Portal | Neon Grid Snake</title>
+  <meta name="description" content="Take a break and pilot the cyber snake. Feed on neon nodes and set a high score.">
+  
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Tailwind CSS Play CDN (v3) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neon-violet': '#10b981',
+            'neon-cyan': '#22c55e',
+            'neon-emerald': '#059669',
+            'neon-pink': '#84cc16',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-full flex flex-col bg-black text-white relative">
+
+  <!-- Custom Cursor Elements -->
+  <div id="custom-cursor-dot"></div>
+  <div id="custom-cursor-ring"></div>
+
+  <!-- Background Grid overlay -->
+  <div class="fixed inset-0 grid-bg opacity-20 pointer-events-none -z-10"></div>
+
+  <!-- Main layout container -->
+  <main class="min-h-screen w-full flex flex-col justify-center items-center py-12 px-6">
+    
+    <!-- Floating Return Button -->
+    <div class="absolute top-8 left-8 z-30" data-magnetic="0.3">
+      <a href="index.html" class="flex items-center gap-2 border border-zinc-900 bg-zinc-950/40 hover:bg-zinc-950 px-4 py-2 rounded-full font-code text-xs text-zinc-400 hover:text-white transition-colors duration-300" data-hover="true">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i> // RETURN TO HUB
+      </a>
+    </div>
+
+    <!-- Dashboard Title header -->
+    <div class="flex flex-col items-center text-center gap-2 mb-8 select-none">
+      <span class="font-code text-xs text-amber-500 tracking-[0.2em] uppercase flex items-center gap-2">
+        <i data-lucide="gamepad-2" class="w-4 h-4 animate-float-slow"></i> INTERACTIVE ARCADE PORTAL
+      </span>
+      <h1 id="game-title" class="font-display font-black text-3xl md:text-5xl text-white tracking-tight uppercase">
+        NEON GRID SNAKE
+      </h1>
+    </div>
+
+    <!-- Arcade Cabinet Card (Static/Non-tilt for clean gaming) -->
+    <div class="glass relative overflow-hidden max-w-lg w-full flex flex-col items-center bg-[#050508]/85 border border-white/5 p-6 rounded-2xl animate-fade-in" glow-color="rgba(245, 158, 11, 0.12)">
+      
+      <!-- Game Selector Tabs -->
+      <div class="flex w-full gap-2 mb-6 bg-zinc-950/65 p-1 rounded-xl border border-zinc-900/60 z-20 select-none">
+        <button id="tab-snake" class="flex-1 py-2 text-center rounded-lg font-code text-[11px] font-bold transition-all duration-300 bg-amber-500 text-black shadow-lg" data-hover="true">
+          // SNAKE
+        </button>
+        <button id="tab-breakout" class="flex-1 py-2 text-center rounded-lg font-code text-[11px] font-bold text-zinc-500 hover:text-white transition-all duration-300" data-hover="true">
+          // BREAKOUT
+        </button>
+        <button id="tab-shooter" class="flex-1 py-2 text-center rounded-lg font-code text-[11px] font-bold text-zinc-500 hover:text-white transition-all duration-300" data-hover="true">
+          // SHOOTER
+        </button>
+      </div>
+
+      <!-- Metrics & Controls Header -->
+      <div class="flex justify-between items-center w-full mb-6 border-b border-zinc-900 pb-4 select-none relative z-10">
+        <div class="flex flex-col">
+          <span class="font-code text-[9px] text-zinc-500 tracking-wider">SCORE</span>
+          <span id="game-score" class="font-display font-extrabold text-2xl text-neon-cyan leading-none">0</span>
+        </div>
+        
+        <div class="flex gap-2">
+          <!-- Sound Toggle -->
+          <button id="btn-sound" class="p-2 border border-zinc-900 hover:border-zinc-800 rounded-lg text-zinc-400 hover:text-white bg-zinc-950/50 transition-colors" data-hover="true">
+            <i data-lucide="volume-2" class="w-4 h-4"></i>
+          </button>
+
+          <!-- Pause Toggle (Visible only during gameplay) -->
+          <button id="btn-pause" class="p-2 border border-zinc-900 hover:border-zinc-800 rounded-lg text-zinc-400 hover:text-white bg-zinc-950/50 transition-colors hidden" data-hover="true">
+            <i data-lucide="pause" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-col items-end">
+          <span class="font-code text-[9px] text-zinc-500 tracking-wider flex items-center gap-1">
+            <i data-lucide="trophy" class="w-2.5 h-2.5 text-amber-500"></i> HIGHSCORE
+          </span>
+          <span id="game-highscore" class="font-display font-extrabold text-2xl text-amber-500 leading-none">0</span>
+        </div>
+      </div>
+
+      <!-- Square Responsive Canvas Wrapper -->
+      <div class="relative w-full max-w-[400px] aspect-square bg-[#020204] rounded-lg overflow-hidden border border-zinc-900/60 z-10">
+        <canvas id="game-canvas" width="400" height="400" class="w-full h-full block"></canvas>
+
+        <!-- Start Overlay Screen -->
+        <div id="overlay-start" class="absolute inset-0 bg-[#030303]/90 backdrop-blur-xs flex flex-col justify-center items-center p-6 text-center">
+          <i data-lucide="gamepad-2" class="w-12 h-12 text-amber-500 mb-4 animate-float-slow"></i>
+          <h3 id="overlay-title" class="font-display font-black text-xl text-white tracking-widest uppercase mb-2">ARE YOU READY?</h3>
+          <p id="overlay-desc" class="font-sans text-xs text-zinc-500 max-w-xs mb-6 leading-relaxed">
+            Use WASD or Arrow Keys to pilot the system. Eat pink stars to expand the trail matrix.
+          </p>
+          <div data-magnetic="0.35">
+            <button id="btn-start" class="flex items-center gap-2 px-8 py-4 rounded-full bg-amber-500 hover:bg-amber-600 text-black font-display font-bold text-xs tracking-widest transition-all duration-300" data-hover="true">
+              INITIALIZE GAME <i data-lucide="play" class="w-3.5 h-3.5 fill-black"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pause Overlay Screen -->
+        <div id="overlay-pause" class="absolute inset-0 bg-[#030303]/85 backdrop-blur-xs flex flex-col justify-center items-center text-center hidden">
+          <h3 class="font-display font-black text-2xl text-neon-cyan tracking-widest uppercase mb-4 animate-pulse">SYSTEM PAUSED</h3>
+          <div data-magnetic="0.35">
+            <button id="btn-resume" class="flex items-center gap-2 px-8 py-4 rounded-full bg-neon-cyan hover:bg-cyan-400 text-black font-display font-bold text-xs tracking-widest transition-all duration-300" data-hover="true">
+              RESUME ENGINE <i data-lucide="play" class="w-3.5 h-3.5 fill-black"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Game Over Overlay Screen -->
+        <div id="overlay-gameover" class="absolute inset-0 bg-[#030303]/90 backdrop-blur-xs flex flex-col justify-center items-center p-6 text-center hidden">
+          <h3 class="font-display font-black text-3xl text-red-500 tracking-widest uppercase mb-2">SYSTEM FAILURE</h3>
+          <p id="gameover-summary" class="font-code text-xs text-zinc-500 mb-6">FINAL MATRIX SCORE: 0</p>
+          <div data-magnetic="0.35">
+            <button id="btn-restart" class="flex items-center gap-2 px-8 py-4 rounded-full bg-red-500 hover:bg-red-600 text-white font-display font-bold text-xs tracking-widest transition-all duration-300" data-hover="true">
+              REBOOT CORE <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Touch Controls Pad (Visible only on mobile/touch screens) -->
+      <div id="mobile-controls" class="hidden w-full flex flex-col items-center gap-2 mt-6 select-none relative z-10">
+        <!-- D-Pad for Snake -->
+        <div id="control-dpad" class="flex flex-col items-center gap-1.5 hidden">
+          <button id="ctrl-up" class="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center active:bg-amber-500 active:text-black transition-colors" data-hover="true">
+            <i data-lucide="chevron-up" class="w-6 h-6"></i>
+          </button>
+          <div class="flex gap-8">
+            <button id="ctrl-left" class="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center active:bg-amber-500 active:text-black transition-colors" data-hover="true">
+              <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+            <button id="ctrl-right" class="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center active:bg-amber-500 active:text-black transition-colors" data-hover="true">
+              <i data-lucide="chevron-right" class="w-6 h-6"></i>
+            </button>
+          </div>
+          <button id="ctrl-down" class="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center active:bg-amber-500 active:text-black transition-colors" data-hover="true">
+            <i data-lucide="chevron-down" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+        <!-- Left/Right + Fire layout for Breakout/Shooter -->
+        <div id="control-action" class="flex justify-between items-center w-full max-w-[340px] px-2 hidden">
+          <div class="flex gap-4">
+            <button id="ctrl-action-left" class="w-14 h-14 rounded-full bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center active:bg-amber-500 active:text-black transition-colors">
+              <i data-lucide="arrow-left" class="w-6 h-6"></i>
+            </button>
+            <button id="ctrl-action-right" class="w-14 h-14 rounded-full bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center active:bg-amber-500 active:text-black transition-colors">
+              <i data-lucide="arrow-right" class="w-6 h-6"></i>
+            </button>
+          </div>
+          <button id="ctrl-action-fire" class="w-16 h-16 rounded-full bg-red-500 border border-red-400 text-white flex items-center justify-center font-display font-black text-xs tracking-wider active:bg-red-600 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.4)]">
+            FIRE
+          </button>
+        </div>
+      </div>
+
+      <!-- Controls Info Footer -->
+      <div class="w-full flex justify-between items-center mt-6 text-[10px] font-code text-zinc-600 border-t border-zinc-950 pt-4 select-none relative z-10">
+        <span id="footer-controls">KEYBOARD: [W,A,S,D] OR [ARROWS]</span>
+        <span>GRID MATRIX v1.0.0</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- CDN scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Game logic script -->
+  <script src="js/games.js"></script>
+</body>
+</html>

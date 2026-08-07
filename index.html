@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full antialiased">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWANG KU WAFIQ AIMAN | Personal Digital Hub</title>
+  <meta name="description"
+    content="Computer Science Student, Future Software Engineer & Full-Stack Developer. Step into my interactive digital world.">
+
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="css/style.css?v=1.1">
+
+  <!-- Tailwind CSS Play CDN (v3) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neon-violet': '#10b981', /* Emerald Green */
+            'neon-cyan': '#22c55e',   /* Neon Lime Green */
+            'neon-emerald': '#059669',/* Deep Emerald */
+            'neon-pink': '#84cc16',   /* Lime Green */
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-full flex flex-col bg-black text-white relative">
+
+  <!-- Custom Cursor Elements -->
+  <div id="custom-cursor-dot"></div>
+  <div id="custom-cursor-ring"></div>
+
+  <!-- Cinematic Preloader Curtain -->
+  <div id="preloader" class="fixed inset-0 bg-[#030303] z-[9999] flex flex-col justify-between p-8 md:p-16">
+    <div class="flex justify-between items-start w-full">
+      <div class="flex flex-col">
+        <span class="font-code text-[10px] text-zinc-500 tracking-[0.2em]">PORT SYSTEM v2.4</span>
+        <span class="font-code text-[10px] text-zinc-600">LOC: AWNGKUU</span>
+      </div>
+      <div>
+        <span class="font-code text-[10px] text-zinc-500 tracking-[0.1em]">DARK MODE ACTIVE</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-center flex-1 max-w-4xl mx-auto w-full">
+      <div class="w-full relative py-6">
+        <div id="preloader-text"
+          class="font-display font-medium text-xl md:text-3xl text-white tracking-widest text-center h-12 uppercase">
+          INITIALIZING SYSTEM
+        </div>
+        <div id="preloader-counter"
+          class="font-display font-extrabold text-[12vw] md:text-[8vw] text-gradient-cyan-purple text-center leading-none select-none tracking-tighter my-4">
+          0%
+        </div>
+      </div>
+      <div class="w-64 md:w-80 h-[2px] bg-zinc-900 rounded-full overflow-hidden relative mt-4">
+        <div id="preloader-bar"
+          class="absolute inset-y-0 left-0 bg-gradient-to-r from-neon-cyan to-neon-violet origin-left w-full scale-x-0">
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row justify-between items-center w-full gap-2 border-t border-zinc-900 pt-6">
+      <span class="font-code text-[10px] text-zinc-500 tracking-[0.1em] text-center md:text-left">
+        © 2026 AWANG KU. ALL ARCHITECTURES CONNECTED.
+      </span>
+      <span class="font-code text-[10px] text-zinc-600 text-center md:text-right">
+        DESIGN INSPIRED BY PREMIUM CORE SYSTEMS
+      </span>
+    </div>
+  </div>
+
+  <!-- Background Audio Element (Steven Universe Lofi Hip Hop Theme) -->
+  <audio id="bg-audio" src="audio/steven-universe-lofi.mp3" loop></audio>
+
+  <!-- Interactive Background Canvas -->
+  <canvas id="bg-particle-canvas"></canvas>
+
+  <!-- Floating Navigation Bar -->
+  <nav class="fixed top-6 inset-x-0 mx-auto z-40 max-w-5xl px-6 w-[90%] pointer-events-none">
+    <div
+      class="glass flex items-center justify-between py-2 md:py-3 px-4 md:px-6 rounded-full w-full pointer-events-auto backdrop-blur-md">
+      <!-- Brand Logo -->
+      <div data-magnetic="0.25"
+        class="flex items-center gap-2 font-display font-semibold text-sm md:text-base tracking-[0.15em] text-white cursor-pointer select-none"
+        onclick="scrollToSection('hero')">
+        <i data-lucide="terminal" class="w-4 h-4 text-neon-cyan animate-pulse"></i>
+        <span>AWNGKUU</span>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center gap-6">
+        <button data-magnetic="0.3" onclick="scrollToSection('about')"
+          class="font-code text-xs text-zinc-400 hover:text-white transition-colors duration-300 px-2 py-1 select-none">
+          // About
+        </button>
+        <button data-magnetic="0.3" onclick="scrollToSection('journey')"
+          class="font-code text-xs text-zinc-400 hover:text-white transition-colors duration-300 px-2 py-1 select-none">
+          // Journey
+        </button>
+        <button data-magnetic="0.3" onclick="scrollToSection('explore')"
+          class="font-code text-xs text-zinc-400 hover:text-white transition-colors duration-300 px-2 py-1 select-none">
+          // Explore
+        </button>
+
+        <button data-magnetic="0.3" onclick="scrollToSection('stack')"
+          class="font-code text-xs text-zinc-400 hover:text-white transition-colors duration-300 px-2 py-1 select-none">
+          // Stack
+        </button>
+        <button data-magnetic="0.3" onclick="scrollToSection('contact')"
+          class="font-code text-xs text-zinc-400 hover:text-white transition-colors duration-300 px-2 py-1 select-none">
+          // Contact
+        </button>
+      </div>
+
+      <!-- Action Launch button -->
+      <div data-magnetic="0.2" class="flex items-center gap-3">
+        <!-- Music Toggle Button -->
+        <button id="nav-music-toggle"
+          class="p-2 md:p-2.5 border border-zinc-900 hover:border-zinc-800 rounded-full text-zinc-400 hover:text-white bg-zinc-950/50 transition-colors flex items-center justify-center relative w-8 h-8 md:w-9 md:h-9"
+          data-hover="true" title="Toggle Ambient Music">
+          <div class="flex items-end gap-[2.5px] h-3">
+            <div class="eq-bar w-[2px] bg-neon-cyan h-1.5 transition-all duration-300"></div>
+            <div class="eq-bar w-[2px] bg-neon-cyan h-3 transition-all duration-300"></div>
+            <div class="eq-bar w-[2px] bg-neon-cyan h-2 transition-all duration-300"></div>
+          </div>
+        </button>
+        <a href="games.html"
+          class="relative inline-flex items-center justify-center p-[1px] overflow-hidden text-xs sm:text-sm font-code font-bold text-white rounded-full group bg-gradient-to-br from-neon-cyan to-neon-violet group-hover:from-neon-cyan group-hover:to-neon-violet focus:ring-2 focus:outline-none focus:ring-cyan-800">
+          <span
+            class="relative px-4 sm:px-6 py-1.5 sm:py-2 transition-all ease-in duration-75 bg-[#030303] rounded-full group-hover:bg-opacity-0">
+            Launch Portal
+          </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Scroll Container -->
+  <main class="relative flex flex-col items-center w-full z-10">
+
+    <!-- 1. Hero Section -->
+    <section id="hero"
+      class="relative min-h-screen w-full flex flex-col justify-center items-center overflow-hidden px-6 grid-bg select-none">
+      <div
+        class="absolute top-1/4 left-1/4 w-[35vw] h-[35vw] rounded-full bg-neon-violet/10 blur-[120px] animate-pulse-slow -z-10">
+      </div>
+      <div
+        class="absolute bottom-1/4 right-1/4 w-[40vw] h-[40vw] rounded-full bg-neon-cyan/8 blur-[150px] animate-pulse-slow -z-10"
+        style="animation-delay: 2s;"></div>
+
+      <div class="flex flex-col items-center text-center max-w-6xl mx-auto z-10">
+        <p class="font-code text-xs md:text-sm tracking-[0.2em] text-neon-cyan uppercase mb-6 hero-parallax"
+          data-speed="0.1">
+          // welcome to my digital world
+        </p>
+
+        <h1
+          class="font-display font-black text-[9vw] md:text-[6.5vw] text-white tracking-tighter leading-[0.9] uppercase flex flex-col items-center justify-center hero-parallax mb-8"
+          data-speed="0.2">
+          <span class="block overflow-hidden pb-2" id="hero-firstname">
+            <!-- Staggered reveal injected via JS -->
+          </span>
+          <span class="block overflow-hidden text-gradient-cyan-purple pb-2" id="hero-lastname">
+            <!-- Staggered reveal injected via JS -->
+          </span>
+        </h1>
+
+        <!-- Tagline Carousel -->
+        <div class="overflow-hidden flex flex-col items-center justify-center hero-parallax mb-12" data-speed="0.3">
+          <div
+            class="font-display text-sm sm:text-xl md:text-2xl text-zinc-400 font-light tracking-[0.1em] flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+            <span>I am a</span>
+            <span id="hero-role"
+              class="font-semibold text-white border-b border-neon-violet/50 pb-0.5 min-w-[180px] sm:min-w-[280px] md:min-w-[320px] inline-block transition-all duration-500 ease-out">
+              Computer Science Student
+            </span>
+          </div>
+        </div>
+
+        <!-- Hero CTA Button -->
+        <div class="hero-parallax" data-speed="0.4" data-magnetic="0.4">
+          <button onclick="scrollToSection('about')"
+            class="group relative inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-black font-display font-bold text-xs sm:text-sm tracking-widest overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] shadow-2xl">
+            <span class="relative z-10 transition-colors duration-300 group-hover:text-white uppercase">EXPLORE MY
+              WORLD</span>
+            <i data-lucide="arrow-down-right"
+              class="w-4 h-4 relative z-10 text-black group-hover:text-white group-hover:rotate-45 transition-all duration-300"></i>
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-neon-violet to-neon-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Rocket Scroll Button -->
+      <div
+        class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-25 hero-parallax"
+        data-speed="0.05">
+        <button id="hero-rocket" class="relative group p-3.5 bg-zinc-950/65 border border-zinc-900/60 rounded-full text-zinc-500 hover:text-white transition-all duration-300 hover:scale-115 hover:shadow-[0_0_25px_rgba(34,197,94,0.25)] select-none flex items-center justify-center cursor-pointer" data-hover="true" title="Launch to Hub">
+          <i data-lucide="rocket" class="w-6 h-6 transform -rotate-45 group-hover:animate-wiggle transition-transform"></i>
+          <!-- Flame Exhaust -->
+          <span class="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-orange-500 rounded-full blur-[1px] opacity-0 group-hover:opacity-100 group-hover:animate-flame"></span>
+        </button>
+        <span class="font-code text-[9px] tracking-[0.25em] text-zinc-600 uppercase select-none">Launch Hub</span>
+      </div>
+    </section>
+
+    <!-- 2. About Section -->
+    <section id="about"
+      class="relative py-24 md:py-32 w-full max-w-6xl mx-auto px-6 overflow-hidden flex flex-col justify-center">
+      <div class="flex flex-col gap-4 mb-16">
+        <span class="font-code text-xs text-neon-violet tracking-[0.2em] uppercase">// WHO I AM</span>
+        <h2 class="font-display font-bold text-3xl md:text-5xl text-white tracking-tight">
+          A Glimpse Into My World
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Word Scroll Reveal -->
+        <div class="lg:col-span-7 flex flex-col gap-6">
+          <p id="about-reveal-text"
+            class="font-display font-light text-xl md:text-3xl text-zinc-500 leading-relaxed tracking-wide select-none">
+            I am Awang Ku Muhammad Wafiq Aiman, a 22-year-old Computer Science (Maritime Informatics) student at UMT,
+            currently interning as a Web Developer at Liash Trading. Hailing from Johor (born in JB, raised in Tebrau,
+            and now based in Ulu Tiram), I originally dreamed of becoming a professional football player. However,
+            realizing running on grass is exhausting, I decided to run code instead! Now, I am fully committed to
+            mastering Web Design and Full-Stack Development. When I am not debugging or designing user interfaces, I'm
+            jamming on my guitar or gaming with Valorant, Mobile Legends, and eFootball.
+          </p>
+        </div>
+
+        <!-- Glass Cards Dashboard -->
+        <div class="lg:col-span-5 flex flex-col gap-4 about-card-container">
+          <div class="glass relative overflow-hidden rounded-2xl p-6 transition-all duration-500 ease-out about-card"
+            data-tilt="true" glow-color="rgba(34, 197, 94, 0.15)">
+            <div class="flex gap-4 items-start relative z-10">
+              <div class="p-3 bg-neon-cyan/10 rounded-xl text-neon-cyan">
+                <i data-lucide="map-pin" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h4 class="font-display font-bold text-white text-base mb-1">Current Base</h4>
+                <p class="font-sans text-sm text-zinc-400">Johor, Malaysia</p>
+                <p class="font-code text-xs text-zinc-500 mt-1">Born in Johor Bahru</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass relative overflow-hidden rounded-2xl p-6 transition-all duration-500 ease-out about-card"
+            data-tilt="true" glow-color="rgba(16, 185, 129, 0.15)">
+            <div class="flex gap-4 items-start relative z-10">
+              <div class="p-3 bg-neon-violet/10 rounded-xl text-neon-violet">
+                <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h4 class="font-display font-bold text-white text-base mb-1">Education</h4>
+                <p class="font-sans text-sm text-zinc-400">Universiti Malaysia Terengganu</p>
+                <p class="font-code text-xs text-zinc-500 mt-1">B.CS. (Maritime Informatics)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass relative overflow-hidden rounded-2xl p-6 transition-all duration-500 ease-out about-card"
+            data-tilt="true" glow-color="rgba(132, 204, 22, 0.15)">
+            <div class="flex gap-4 items-start relative z-10">
+              <div class="p-3 bg-neon-pink/10 rounded-xl text-neon-pink">
+                <i data-lucide="user" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h4 class="font-display font-bold text-white text-base mb-1">Specs & Status</h4>
+                <p class="font-sans text-sm text-zinc-400">180cm | 85kg (Gemuk sikit je HAHAHA)</p>
+                <p class="font-code text-xs text-zinc-500 mt-1">Anak bongsu (2nd of 2 siblings)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Journey Section -->
+    <section id="journey" class="relative py-24 md:py-32 w-full max-w-5xl mx-auto px-6 overflow-hidden">
+      <div class="flex flex-col gap-4 mb-20 text-center items-center">
+        <span class="font-code text-xs text-neon-cyan tracking-[0.2em] uppercase">// MY TIMELINE</span>
+        <h2 class="font-display font-bold text-3xl md:text-5xl text-white tracking-tight">
+          The Journey So Far
+        </h2>
+      </div>
+
+      <div class="relative w-full">
+        <!-- Central Track Line -->
+        <div id="timeline-line"
+          class="absolute left-4 md:left-1/2 top-0 bottom-0 w-[2px] bg-zinc-950 -translate-x-1/2 -z-10">
+          <div id="timeline-glow"
+            class="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b from-neon-cyan via-neon-violet to-neon-pink scale-y-0 origin-top">
+          </div>
+        </div>
+
+        <!-- Cards List -->
+        <div class="flex flex-col gap-12 md:gap-16" id="timeline-container">
+          <!-- Timeline entries will be populated dynamically with correct re-ordered tags for desktop -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Explore Bento Grid -->
+    <section id="explore" class="relative py-24 md:py-32 w-full max-w-6xl mx-auto px-6 overflow-hidden">
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-neon-cyan/5 rounded-full blur-[160px] pointer-events-none -z-10">
+      </div>
+
+      <div class="flex flex-col gap-4 mb-20 text-center items-center">
+        <span class="font-code text-xs text-neon-violet tracking-[0.2em] uppercase">// KERNEL EXPLORER</span>
+        <h2 class="font-display font-bold text-3xl md:text-5xl text-white tracking-tight">
+          Explore My Digital World
+        </h2>
+        <p class="font-sans text-sm text-zinc-500 max-w-lg mt-2">
+          Navigate into different spaces of my environment. Each portal connects to a customized digital subdomain.
+        </p>
+      </div>
+
+      <!-- Bento Grid Symmetrical Container -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full auto-rows-auto md:auto-rows-[200px]"
+        id="bento-container">
+        <!-- Injected via JavaScript for perfect alignment -->
+    </section>
+
+    <!-- 6. Tech Stack Section -->
+    <section id="stack" class="relative py-24 md:py-32 w-full overflow-hidden select-none">
+      <div
+        class="absolute left-1/4 bottom-0 w-[45vw] h-[45vw] rounded-full bg-neon-pink/5 blur-[130px] pointer-events-none -z-10">
+      </div>
+
+      <div class="flex flex-col gap-4 mb-20 text-center items-center px-6">
+        <span class="font-code text-xs text-neon-pink tracking-[0.2em] uppercase">// SYSTEM ARCHITECTURE</span>
+        <h2 class="font-display font-bold text-3xl md:text-5xl text-white tracking-tight">
+          My Tech Stack
+        </h2>
+        <p class="font-sans text-sm text-zinc-500 max-w-lg mt-2">
+          A collection of languages, frameworks, and deployment utilities I use to orchestrate digital applications.
+        </p>
+      </div>
+
+      <!-- Marquee Track 1 -->
+      <div
+        class="flex w-full overflow-hidden py-4 border-y border-zinc-900 bg-zinc-950/20 backdrop-blur-xs relative z-10">
+        <div class="animate-marquee-track-1 gap-6" id="marquee-track-1">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Marquee Track 2 -->
+      <div
+        class="flex w-full overflow-hidden py-4 border-b border-zinc-900 bg-zinc-950/10 backdrop-blur-xs mt-6 relative z-10">
+        <div class="animate-marquee-track-2 gap-6" id="marquee-track-2">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <div class="flex justify-center gap-6 mt-12 font-code text-[10px] text-zinc-500 tracking-wider">
+        <span class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-neon-cyan"></span> Frontend / Design
+        </span>
+        <span class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-neon-violet"></span> Backend / Systems
+        </span>
+        <span class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-neon-pink"></span> Dev Tools / VCS
+        </span>
+      </div>
+    </section>
+
+    <!-- 7. Mini Games Launcher -->
+    <section id="games-banner"
+      class="relative py-24 md:py-32 w-full max-w-5xl mx-auto px-6 overflow-hidden select-none">
+      <div
+        class="glass relative overflow-hidden w-full p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8 rounded-3xl border border-white/5"
+        data-tilt="true" glow-color="rgba(245, 158, 11, 0.15)">
+        <div class="absolute inset-0 grid-bg opacity-10 pointer-events-none"></div>
+
+        <div class="flex flex-col gap-4 text-center md:text-left z-10">
+          <span
+            class="font-code text-xs text-amber-500 tracking-[0.2em] uppercase flex items-center justify-center md:justify-start gap-2">
+            <i data-lucide="gamepad-2" class="w-4 h-4 animate-bounce"></i> // INTERACTIVE LOUNGE
+          </span>
+          <h2 class="font-display font-black text-3xl md:text-5xl text-white tracking-tight leading-tight">
+            Take a Break.
+          </h2>
+          <p class="font-sans text-sm md:text-base text-zinc-400 max-w-md">
+            Wander away from code for a moment. Enter the arcade portal and play a cyber-styled game inside this web
+            hub.
+          </p>
+        </div>
+
+        <div class="z-10" data-magnetic="0.45">
+          <a href="games.html"
+            class="group relative inline-flex items-center gap-3 px-10 py-5 rounded-full bg-amber-500 text-black font-display font-bold text-xs sm:text-sm tracking-widest overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] shadow-2xl">
+            <span class="relative z-10 transition-colors duration-300 group-hover:text-white">LAUNCH PORTAL</span>
+            <i data-lucide="arrow-right"
+              class="w-4 h-4 relative z-10 text-black group-hover:text-white group-hover:translate-x-1 transition-all duration-300"></i>
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-amber-600 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Contact Section & Footer -->
+    <section id="contact"
+      class="relative pt-24 pb-12 w-full max-w-5xl mx-auto px-6 overflow-hidden flex flex-col justify-between min-h-[70vh]">
+      <div
+        class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[50vw] h-[50vw] rounded-full bg-neon-violet/5 blur-[140px] pointer-events-none -z-10">
+      </div>
+
+      <div class="flex flex-col items-center text-center gap-6 mt-12">
+        <span class="font-code text-xs text-neon-violet tracking-[0.2em] uppercase">// SAY HELLO!</span>
+        <h2 class="font-display font-black text-4xl md:text-6xl text-white tracking-tight leading-none uppercase">
+          LEPAK & CHILL
+        </h2>
+        <p class="font-sans text-sm md:text-base text-zinc-500 max-w-md">
+          Tak payah tanya pasal coding, tanya pasal benda lain boleh HAHA. Nak ajak jam gitar sekali, setup matchmaking
+          Valorant, atau saja nak ajak borak? Gass terus !
+        </p>
+      </div>
+
+      <!-- Social circles -->
+      <div class="flex flex-wrap justify-center items-center gap-6 md:gap-10 my-16" id="socials-container">
+        <!-- Injected via JS -->
+      </div>
+
+      <div class="flex flex-col items-center gap-6 border-t border-zinc-950 pt-12 mt-12 w-full">
+        <p class="font-display font-medium text-sm md:text-base text-zinc-400 tracking-[0.1em] text-center italic">
+          &ldquo;Terima kasih sudi singgah ke hub kick saya. Gerak dulu, roger-roger!&rdquo;
+        </p>
+
+        <div
+          class="flex flex-col md:flex-row justify-between items-center w-full gap-4 text-zinc-600 font-code text-[10px] tracking-wider mt-4">
+          <span>© 2026 AWNGKUU. ALL RIGHTS RESERVED.</span>
+          <div class="flex gap-4">
+            <a href="#" class="hover:text-white transition-colors duration-200">PRIVACY POLICY</a>
+            <a href="#" class="hover:text-white transition-colors duration-200">SYS_LOG</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CDN dependencies libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Interactive logic scripts -->
+  <script src="js/main.js?v=1.1"></script>
+</body>
+
+</html>

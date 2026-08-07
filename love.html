@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Core | Heartbeat Monitor & Vault</title>
+  <meta name="description" content="Synchronizing heartbeats and decrypting memories. A secure full-stack database connection.">
+  
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="css/style.css?v=1.1">
+  
+  <!-- Tailwind CSS Play CDN (v3) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neon-violet': '#10b981',
+            'neon-cyan': '#22c55e',
+            'neon-emerald': '#059669',
+            'neon-pink': '#84cc16',
+            'neon-rose': '#f43f5e',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-full flex flex-col bg-black text-white relative">
+
+  <!-- Custom Cursor Elements -->
+  <div id="custom-cursor-dot"></div>
+  <div id="custom-cursor-ring"></div>
+
+  <!-- Background Grid overlay -->
+  <div class="fixed inset-0 grid-bg opacity-20 pointer-events-none -z-10"></div>
+
+  <!-- Romantic Glow Overlays -->
+  <div class="fixed top-1/4 left-1/4 w-[50vw] h-[50vw] bg-rose-500/5 rounded-full blur-[160px] pointer-events-none -z-10"></div>
+  <div class="fixed bottom-1/4 right-1/4 w-[40vw] h-[40vw] bg-rose-500/3 rounded-full blur-[160px] pointer-events-none -z-10"></div>
+
+  <!-- Main layout container -->
+  <main class="min-h-screen w-full flex flex-col justify-center items-center py-16 px-6 relative">
+    
+    <!-- Floating Return Button -->
+    <div class="absolute top-8 left-8 z-30" data-magnetic="0.3">
+      <a href="index.html" class="flex items-center gap-2 border border-zinc-900 bg-zinc-950/40 hover:bg-zinc-950 px-4 py-2 rounded-full font-code text-xs text-zinc-400 hover:text-white transition-colors duration-300" data-hover="true">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i> // RETURN TO HUB
+      </a>
+    </div>
+
+    <!-- Dashboard Title header -->
+    <div class="flex flex-col items-center text-center gap-2 mb-8 select-none">
+      <span class="font-code text-xs text-neon-rose tracking-[0.2em] uppercase flex items-center gap-2">
+        <i data-lucide="heart" class="w-4 h-4 animate-heart-pulse"></i> INTERACTIVE LOVE PORTAL
+      </span>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-white tracking-tight uppercase">
+        LOVE CORE SYSTEM v1.0
+      </h1>
+    </div>
+
+    <!-- Main Content Panel (Glassmorphism layout) -->
+    <div id="love" class="glass relative overflow-hidden max-w-4xl w-full flex flex-col bg-[#050508]/85 border border-white/5 p-6 md:p-8 rounded-2xl animate-fade-in" glow-color="rgba(244, 63, 94, 0.12)">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch w-full">
+        <!-- Left Side: Chronometer & Decryptor Terminal -->
+        <div class="md:col-span-6 flex flex-col gap-6 w-full">
+          
+          <!-- Chronometer Card -->
+          <div class="bg-zinc-950/50 border border-zinc-900/60 rounded-xl p-5 relative select-none">
+            <div class="absolute top-0 right-0 p-4 font-code text-[8px] text-zinc-600">SYS: UPTIME_UP</div>
+            <div class="flex items-center gap-2 mb-3">
+              <i data-lucide="clock" class="w-4 h-4 text-neon-rose"></i>
+              <h3 class="font-display font-bold text-white text-sm">Together Chronometer</h3>
+            </div>
+            <p class="font-sans text-[11px] text-zinc-500 mb-5">// Continuous connection uptime since anniversary</p>
+            
+            <!-- Timer Metrics Grid -->
+            <div class="grid grid-cols-4 gap-2.5 text-center">
+              <div class="bg-zinc-950 border border-zinc-900/80 rounded-lg p-2.5 shadow-inner">
+                <span id="love-days" class="font-display font-black text-xl md:text-2xl text-neon-rose block">00</span>
+                <span class="font-code text-[8px] text-zinc-500 uppercase tracking-wider">Days</span>
+              </div>
+              <div class="bg-zinc-950 border border-zinc-900/80 rounded-lg p-2.5 shadow-inner">
+                <span id="love-hours" class="font-display font-black text-xl md:text-2xl text-neon-rose block">00</span>
+                <span class="font-code text-[8px] text-zinc-500 uppercase tracking-wider">Hrs</span>
+              </div>
+              <div class="bg-zinc-950 border border-zinc-900/80 rounded-lg p-2.5 shadow-inner">
+                <span id="love-minutes" class="font-display font-black text-xl md:text-2xl text-neon-rose block">00</span>
+                <span class="font-code text-[8px] text-zinc-500 uppercase tracking-wider">Mins</span>
+              </div>
+              <div class="bg-zinc-950 border border-zinc-900/80 rounded-lg p-2.5 shadow-inner">
+                <span id="love-seconds" class="font-display font-black text-xl md:text-2xl text-neon-rose block">00</span>
+                <span class="font-code text-[8px] text-zinc-500 uppercase tracking-wider">Secs</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Love Decryptor Card -->
+          <div class="bg-zinc-950/50 border border-zinc-900/60 rounded-xl p-5 flex flex-col justify-between flex-1">
+            <div>
+              <div class="flex items-center gap-2 mb-3">
+                <i data-lucide="key-round" class="w-4 h-4 text-neon-rose"></i>
+                <h3 class="font-display font-bold text-white text-sm">Memory Decryptor Terminal</h3>
+              </div>
+              
+              <div class="font-code text-xs bg-black/90 border border-zinc-900 rounded-lg p-4 min-h-[110px] flex flex-col justify-between select-none relative">
+                <div class="text-zinc-500 mb-2">C:\SYS\DECRYPT&gt; _</div>
+                <div id="decrypted-message" class="text-zinc-200 leading-relaxed font-sans">Click the button below to decrypt a romantic system log.</div>
+                <div class="text-right text-[8px] text-neon-rose/40 mt-2">ENCRYPTION: AES-256-LOVE</div>
+              </div>
+            </div>
+
+            <button id="btn-decrypt-love" class="w-full flex items-center justify-center gap-2 py-3 bg-neon-rose-trans border border-neon-rose hover:bg-neon-rose hover:text-black font-code text-[11px] font-bold tracking-widest text-neon-rose rounded-lg transition-all duration-300 mt-4 active:scale-98" data-hover="true">
+              <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> DECRYPT SYSTEM LOG
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Right Side: Memory Milestones -->
+        <div class="md:col-span-6 flex flex-col w-full">
+          <div class="bg-zinc-950/50 border border-zinc-900/60 rounded-xl p-5 flex flex-col justify-between h-full w-full">
+            <div>
+              <div class="flex items-center gap-2 mb-6">
+                <i data-lucide="git-branch" class="w-4 h-4 text-neon-rose"></i>
+                <h3 class="font-display font-bold text-white text-sm">Key Connection Milestones</h3>
+              </div>
+
+              <!-- Milestone items -->
+              <div class="flex flex-col gap-5 border-l border-zinc-800/80 pl-4 relative ml-2">
+                <div class="relative">
+                  <span class="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-neon-rose shadow-[0_0_8px_#f43f5e]"></span>
+                  <span class="font-code text-[9px] text-neon-rose block mb-0.5">// OCT 24, 2024</span>
+                  <h4 class="font-display font-bold text-zinc-200 text-xs mb-1">Port Handshake Established</h4>
+                  <p class="font-sans text-[11px] text-zinc-500 leading-relaxed">System initialization complete. Handshake sent and accepted. Commencing lifetime handshake protocol.</p>
+                </div>
+
+                <div class="relative mt-2">
+                  <span class="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-neon-rose shadow-[0_0_8px_#f43f5e]"></span>
+                  <span class="font-code text-[9px] text-neon-rose block mb-0.5">// NOV 15, 2024</span>
+                  <h4 class="font-display font-bold text-zinc-200 text-xs mb-1">First Localhost Render (First Date)</h4>
+                  <p class="font-sans text-[11px] text-zinc-500 leading-relaxed">First in-person connection outside the development server. Tested food nodes and caffeine configurations.</p>
+                </div>
+
+                <div class="relative mt-2 text-zinc-400">
+                  <span class="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-neon-rose shadow-[0_0_8px_#f43f5e] animate-pulse"></span>
+                  <span class="font-code text-[9px] text-neon-rose block mb-0.5">// FUTURE MODULES</span>
+                  <h4 class="font-display font-bold text-zinc-200 text-xs mb-1">Production Release (Lifetime Launch)</h4>
+                  <p class="font-sans text-[11px] text-zinc-500 leading-relaxed">Full-stack database migration. Merging master branches into production, creating a lifelong shared server repository.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="border-t border-zinc-900 pt-5 mt-6 flex justify-between items-center select-none text-zinc-600 text-[9px] font-code">
+              <span>STATUS: HEALTHY // 100% ONLINE</span>
+              <span>DEV: AWNGKUU</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </main>
+
+  <!-- CDN dependencies libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Love Logic script -->
+  <script src="js/love.js?v=1.1"></script>
+</body>
+</html>
