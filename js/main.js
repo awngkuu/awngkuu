@@ -42,33 +42,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const preloaderCounter = document.getElementById("preloader-counter");
   const preloaderBar = document.getElementById("preloader-bar");
   const preloaderContainer = document.getElementById("preloader");
+  const preloaderProgress = document.getElementById("preloader-progress-area");
+  const rocketContainer = document.getElementById("preloader-rocket-container");
 
   const preloaderTl = gsap.timeline({
     onComplete: () => {
-      // Exit animations
-      const exitTl = gsap.timeline({
+      // Transition from progress area to rocket button
+      gsap.to(preloaderProgress, {
+        opacity: 0,
+        y: -30,
+        duration: 0.6,
+        ease: "power3.in",
         onComplete: () => {
-          preloaderContainer.style.display = "none";
-          lenis.start(); // Unlock scrolling
-          ScrollTrigger.refresh(); // Recalculate heights for ScrollTrigger
+          preloaderProgress.style.display = "none";
+          // Fade and scale in the launch rocket button
+          gsap.to(rocketContainer, {
+            opacity: 1,
+            scale: 1,
+            pointerEvents: "auto",
+            duration: 0.8,
+            ease: "back.out(1.7)"
+          });
         }
       });
-
-      exitTl.to([preloaderText, preloaderCounter, preloaderBar.parentElement], {
-        opacity: 0,
-        y: -40,
-        duration: 0.5,
-        ease: "power3.in"
-      });
-
-      exitTl.to(preloaderContainer, {
-        yPercent: -100,
-        duration: 1.0,
-        ease: "power4.inOut"
-      }, "-=0.15");
-      
-      // Trigger Hero elements entrance animations
-      animateHeroReveal();
     }
   });
 
@@ -98,6 +94,82 @@ document.addEventListener("DOMContentLoaded", () => {
     { scaleX: 0 },
     { scaleX: 1, duration: 2.8, ease: "power2.out" }
   );
+
+  // Setup rocket launch sequence
+  const preloaderRocketBtn = document.getElementById("hero-rocket");
+  if (preloaderRocketBtn) {
+    preloaderRocketBtn.addEventListener("click", () => {
+      // Play launch synth sound
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(100, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.85);
+
+        gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.9);
+
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.9);
+      } catch (e) {
+        console.warn("Launch audio synthesis blocked/failed:", e);
+      }
+
+      const rocketIcon = rocketContainer.querySelector("i");
+      const launchLabel = rocketContainer.querySelector("span");
+
+      // Prevent duplicate clicks
+      rocketContainer.style.pointerEvents = "none";
+
+      const launchTl = gsap.timeline({
+        onComplete: () => {
+          // Slide preloader curtain away
+          const exitTl = gsap.timeline({
+            onComplete: () => {
+              preloaderContainer.style.display = "none";
+              lenis.start(); // Unlock scrolling
+              ScrollTrigger.refresh();
+            }
+          });
+
+          exitTl.to(preloaderContainer, {
+            yPercent: -100,
+            duration: 1.0,
+            ease: "power4.inOut"
+          });
+
+          // Trigger Hero elements entrance animations
+          animateHeroReveal();
+        }
+      });
+
+      launchTl.to(rocketIcon, {
+        y: 15,
+        duration: 0.15,
+        yoyo: true,
+        repeat: 1,
+        ease: "power1.inOut"
+      })
+      .to(launchLabel, {
+        opacity: 0,
+        y: 10,
+        duration: 0.3
+      }, 0)
+      .to(rocketIcon, {
+        y: -800,
+        scale: 0.6,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.in"
+      });
+    });
+  }
 
   // Custom Cursor Disabled - Default cursor active
 
@@ -713,66 +785,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 14. Rocket Launch scroll logic
-  const heroRocket = document.getElementById("hero-rocket");
-  if (heroRocket) {
-    let isLaunching = false;
-    heroRocket.addEventListener("click", () => {
-      if (isLaunching) return;
-      isLaunching = true;
 
-      // Play launch synth sound
-      try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-
-        osc.type = "sawtooth";
-        osc.frequency.setValueAtTime(100, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.8);
-
-        gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.85);
-
-        osc.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.85);
-      } catch (e) {
-        console.warn("Launch audio synthesis blocked/failed:", e);
-      }
-
-      // GSAP rocket flight animation
-      const rocketIcon = heroRocket.querySelector("i");
-      gsap.timeline({
-        onComplete: () => {
-          // Scroll to about section
-          scrollToSection("about");
-          
-          // Reset rocket position after a small delay
-          gsap.delayedCall(1.2, () => {
-            gsap.set(rocketIcon, { y: 0, scale: 1, opacity: 1 });
-            isLaunching = false;
-          });
-        }
-      })
-      .to(rocketIcon, {
-        y: 15,
-        duration: 0.15,
-        yoyo: true,
-        repeat: 1,
-        ease: "power1.inOut"
-      })
-      .to(rocketIcon, {
-        y: -700,
-        scale: 0.6,
-        opacity: 0,
-        duration: 0.7,
-        ease: "power3.in"
-      });
-    });
-  }
 
   // 14. Mobile Navigation Menu handlers
   const mobileMenuToggle = document.getElementById("mobile-menu-toggle");

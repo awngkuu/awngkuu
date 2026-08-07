@@ -9,7 +9,7 @@
     content="Computer Science Student, Future Software Engineer & Full-Stack Developer. Step into my interactive digital world.">
 
   <!-- Custom stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=1.3">
+  <link rel="stylesheet" href="css/style.css?v=1.5">
 
   <!-- Tailwind CSS Play CDN (v3) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -45,8 +45,9 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-center flex-1 max-w-4xl mx-auto w-full">
-      <div class="w-full relative py-6">
+    <div class="flex flex-col items-center justify-center flex-1 max-w-4xl mx-auto w-full relative">
+      <!-- Loading Progress Area -->
+      <div id="preloader-progress-area" class="w-full py-6 flex flex-col items-center justify-center transition-all duration-500">
         <div id="preloader-text"
           class="font-display font-medium text-xl md:text-3xl text-white tracking-widest text-center h-12 uppercase">
           INITIALIZING SYSTEM
@@ -55,11 +56,21 @@
           class="font-display font-extrabold text-[12vw] md:text-[8vw] text-gradient-cyan-purple text-center leading-none select-none tracking-tighter my-4">
           0%
         </div>
-      </div>
-      <div class="w-64 md:w-80 h-[2px] bg-zinc-900 rounded-full overflow-hidden relative mt-4">
-        <div id="preloader-bar"
-          class="absolute inset-y-0 left-0 bg-gradient-to-r from-neon-cyan to-neon-violet origin-left w-full scale-x-0">
+        <div class="w-64 md:w-80 h-[2px] bg-zinc-900 rounded-full overflow-hidden relative mt-4">
+          <div id="preloader-bar"
+            class="absolute inset-y-0 left-0 bg-gradient-to-r from-neon-cyan to-neon-violet origin-left w-full scale-x-0">
+          </div>
         </div>
+      </div>
+
+      <!-- Preloader Rocket Trigger Button (centered, initially hidden) -->
+      <div id="preloader-rocket-container" class="absolute flex flex-col items-center gap-4 opacity-0 pointer-events-none transition-all duration-700 scale-90">
+        <button id="hero-rocket" class="relative group p-6 bg-zinc-950/80 border border-zinc-900 rounded-full text-zinc-500 hover:text-white transition-all duration-300 hover:scale-110 hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] select-none flex items-center justify-center cursor-pointer w-20 h-20" title="Launch System">
+          <i data-lucide="rocket" class="w-8 h-8 transform -rotate-45 group-hover:animate-wiggle transition-transform"></i>
+          <!-- Flame Exhaust -->
+          <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-orange-500 rounded-full blur-[1px] opacity-0 group-hover:opacity-100 group-hover:animate-flame"></span>
+        </button>
+        <span class="font-code text-xs tracking-[0.3em] text-zinc-500 uppercase select-none animate-pulse">LAUNCH SYSTEM</span>
       </div>
     </div>
 
@@ -204,17 +215,7 @@
         </div>
       </div>
 
-      <!-- Rocket Scroll Button -->
-      <div
-        class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-25 hero-parallax"
-        data-speed="0.05">
-        <button id="hero-rocket" class="relative group p-3.5 bg-zinc-950/65 border border-zinc-900/60 rounded-full text-zinc-500 hover:text-white transition-all duration-300 hover:scale-115 hover:shadow-[0_0_25px_rgba(34,197,94,0.25)] select-none flex items-center justify-center cursor-pointer" data-hover="true" title="Launch to Hub">
-          <i data-lucide="rocket" class="w-6 h-6 transform -rotate-45 group-hover:animate-wiggle transition-transform"></i>
-          <!-- Flame Exhaust -->
-          <span class="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-orange-500 rounded-full blur-[1px] opacity-0 group-hover:opacity-100 group-hover:animate-flame"></span>
-        </button>
-        <span class="font-code text-[9px] tracking-[0.25em] text-zinc-600 uppercase select-none">Launch Hub</span>
-      </div>
+
     </section>
 
     <!-- 2. About Section -->
@@ -482,7 +483,7 @@
   </div>
 
   <!-- Interactive logic scripts -->
-  <script src="js/main.js?v=1.4"></script>
+  <script src="js/main.js?v=1.5"></script>
 </body>
 
 </html>
