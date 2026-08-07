@@ -772,6 +772,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power3.in"
       });
     });
+  }
+
   // 14. Mobile Navigation Menu handlers
   const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
   const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
