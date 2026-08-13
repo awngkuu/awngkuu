@@ -126,6 +126,7 @@
         <a href="#quiz-section" class="hover:text-pink-100 transition-colors">Mini Quiz</a>
         <a href="#countdown" class="hover:text-pink-100 transition-colors">Timer</a>
         <a href="#special-message" class="hover:text-pink-100 transition-colors">Love Letter</a>
+        <a href="javascript:void(0)" onclick="openFlowerRain()" class="hover:text-pink-100 transition-colors text-rose-300 font-bold flex items-center gap-1 animate-pulse">Bunga Sayang 💐</a>
       </div>
       
       <!-- Equalizer + Log out + Mobile menu buttons -->
@@ -163,6 +164,7 @@
       <a href="#quiz-section" onclick="toggleMobileMenu()" class="font-serif text-2xl text-pink-200 hover:text-pink-100 transition-colors">// Mini Quiz</a>
       <a href="#countdown" onclick="toggleMobileMenu()" class="font-serif text-2xl text-pink-200 hover:text-pink-100 transition-colors">// Timer</a>
       <a href="#special-message" onclick="toggleMobileMenu()" class="font-serif text-2xl text-pink-200 hover:text-pink-100 transition-colors">// Love Letter</a>
+      <a href="javascript:void(0)" onclick="openFlowerRain(); toggleMobileMenu()" class="font-serif text-2xl text-rose-300 hover:text-pink-100 transition-colors font-bold">// Bunga Sayang 💐</a>
       <button onclick="logout(); toggleMobileMenu()" class="px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-pink-200 text-sm transition mt-4">
         Log Out
       </button>
@@ -731,6 +733,36 @@
         </p>
       </div>
     </footer>
+  </div>
+
+  <!-- Floating Action Button for Flower Rain -->
+  <button id="flower-fab" class="flower-fab hidden" onclick="openFlowerRain()" title="Beri Bunga Buat Sayang 🌹">
+    <span class="flower-fab-icon">🌹</span>
+    <span class="flower-fab-text">Beri Bunga</span>
+  </button>
+
+  <!-- Fullscreen Flower Rain Overlay -->
+  <div id="flower-rain-overlay" class="flower-rain-overlay">
+    <!-- Close button -->
+    <button class="flower-close-btn" onclick="closeFlowerRain()" title="Tutup Mod Bunga">&times;</button>
+    
+    <!-- Flower Rain Canvas -->
+    <canvas id="flower-rain-canvas"></canvas>
+    
+    <!-- Top HUD Counter and Title -->
+    <div class="flower-hud">
+      <h2 class="flower-hud-title font-serif glow-text">Hujan Bunga Buat Sayang ❤️</h2>
+      <div class="flower-hud-counter glass-panel">
+        <span class="flower-counter-icon">💐</span>
+        <span class="flower-counter-label">Telah Dihantar:</span>
+        <span id="flower-counter-val" class="flower-counter-val">0</span>
+        <span class="flower-counter-suffix">Kuntum</span>
+      </div>
+      <p class="flower-hud-hint">Ketik/klik di skrin untuk spawn bunga pixel! ✨</p>
+    </div>
+
+    <!-- Container for floating popup messages -->
+    <div id="flower-message-container" class="flower-message-container"></div>
   </div>
 
   <!-- Main JavaScript File -->

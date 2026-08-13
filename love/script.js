@@ -438,6 +438,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initQuiz();
     initScrollReveals();
     initCardTilts();
+    initFlowerRain();
+    showFlowerFab();
     return;
   }
 
@@ -476,6 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize 3D card tilt behaviors
   initCardTilts();
+  initFlowerRain();
 });
 
 
@@ -583,6 +586,7 @@ loginForm.addEventListener('submit', (e) => {
 
       initScrollReveals();
       mainContent.scrollTop = 0;
+      showFlowerFab();
     }, 1800);
 
   } else {
@@ -749,7 +753,8 @@ function logout() {
   currentPhase = 'login';
 
   document.getElementById('main-content').classList.remove('visible');
-
+  hideFlowerFab();
+  
   if (bgMusic && musicPlaying) {
     toggleMusic(); // stop music on logout
   }
@@ -1131,4 +1136,501 @@ function toggleMobileMenu() {
   if (overlay) {
     overlay.classList.toggle('visible');
   }
+}
+
+// ==========================================================================
+// PIXEL ART BLOOMING FLOWER ENGINE
+// ==========================================================================
+
+// Color Palette Maps
+const PALETTES = {
+  rose: {
+    '.': '#1a1a1a', // outline
+    'r': '#e63946', // bright red
+    'd': '#9b2226', // dark red
+    'm': '#ae2012', // medium red
+    'p': '#ff8fa3', // pink highlight
+    'g': '#2b9348', // stem green
+    'l': '#55a630', // light green leaf
+    ' ': 'transparent'
+  },
+  daisy: {
+    '.': '#1a1a1a', // outline
+    'o': '#f77f00', // orange petal
+    'y': '#fcbf49', // yellow petal
+    'w': '#ffffff', // white highlight
+    'p': '#d90429', // pink center
+    'c': '#ffb703', // center highlight
+    'g': '#2b9348',
+    ' ': 'transparent'
+  },
+  tulip: {
+    '.': '#1a1a1a', // outline
+    'm': '#d90429', // dark tulip red
+    'p': '#ff4d6d', // hot pink
+    's': '#ff8fa3', // soft pink
+    'l': '#ffccd5', // light pink
+    'g': '#2b9348', // stem green
+    ' ': 'transparent'
+  },
+  sunflower: {
+    '.': '#1a1a1a', // outline
+    'y': '#ffca3a', // bright yellow
+    'o': '#ff924c', // dark yellow/orange
+    'b': '#582f0e', // brown center
+    'd': '#3c1b00', // dark brown
+    'g': '#2b9348', // stem green
+    ' ': 'transparent'
+  }
+};
+
+// 18x18 Pixel Art Flower Sprites
+const SPRITE_ROSE = [
+  "      ......      ",
+  "    ..pppppp..    ",
+  "   .ppmmmmmmpp.   ",
+  "  .ppmmrrddrrmp.  ",
+  " .pmrrddddddrrrm. ",
+  " .mrrddrrrrrrrdm. ",
+  ".mrrrdrrpppprrdrm.",
+  ".mrrrdmpppppprdrm.",
+  ".mrrrdmpppppprdrm.",
+  ".mrrrrddppdrrrdrm.",
+  " .mrrrrrdddrrrrm. ",
+  "  .mmrrrrrrrrrm.  ",
+  "   ..mmrrrrrm..   ",
+  "     ........     ",
+  "        ..        ",
+  "      ..gg..      ",
+  "     .lgggg.      ",
+  "      ..gg..      "
+];
+
+const SPRITE_DAISY = [
+  "      ......      ",
+  "    ..yyyyyy..    ",
+  "   .yyoowoowwyy.  ",
+  "  .yoowwccwwooy.  ",
+  " .yowwccccccwwoy. ",
+  " .yowccppppccwoy. ",
+  ".yowcpppppppcwoy.",
+  ".yowcpppppppcwoy.",
+  ".yoocppppppcoooy.",
+  " .yooccppccccooy. ",
+  " .yoowccccccwoy.  ",
+  "  .yyoowwwwooy.   ",
+  "   ..yyyyyy..     ",
+  "     ......       ",
+  "       ..         ",
+  "     ..gg..       ",
+  "      .gggg.      ",
+  "       ..gg.      "
+];
+
+const SPRITE_TULIP = [
+  "      ......      ",
+  "    ..ssssss..    ",
+  "   .ssllllllss.   ",
+  "  .sllpppppplls.  ",
+  " .slppppppppppls. ",
+  " .lppppmmmmppppl. ",
+  ".lpppmmmmmmmmpppl.",
+  ".lppmmmmmmmmmmppl.",
+  ".lppmmmmmmmmmmppl.",
+  ".lppmmmmmmmmmmppl.",
+  " .lppppmmmmppppl. ",
+  "  .llppppppppll.  ",
+  "   ..llllllll..   ",
+  "     ........     ",
+  "        ..        ",
+  "      ..gg..      ",
+  "      .gggg.      ",
+  "      ..gg..      "
+];
+
+const SPRITE_SUNFLOWER = [
+  "      ......      ",
+  "    ..yyyyyy..    ",
+  "   .yyoowoowwyy.  ",
+  "  .yoowwddwwooy.  ",
+  " .yowwddddddwwoy. ",
+  " .yowddbbbbddwoy. ",
+  ".yowdbbbbbbbdwoy.",
+  ".yowdbbbbbbbdwoy.",
+  ".yoodbbbbbbdoooy.",
+  " .yoodddddddooy. ",
+  " .yoowddddwoy.  ",
+  "  .yyoowwwwooy.   ",
+  "   ..yyyyyy..     ",
+  "     ......       ",
+  "       ..         ",
+  "     ..gg..       ",
+  "      .gggg.      ",
+  "       ..gg.      "
+];
+
+// Global state for Flower Rain overlay
+let flowerRainActive = false;
+let flowerCanvas = null;
+let flowerCtx = null;
+let flowerList = [];
+let totalFlowersSent = 0;
+let flowerRainAnimationId = null;
+let lastAutoSpawnTime = 0;
+
+// Malay words of endearment to float up when clicked
+const FLOWER_MESSAGES = [
+  "Untuk Sayang Grumpy! ❤️",
+  "Comel sangat! 🥰",
+  "Awang Busyuk Sayang Ayuni! 🤍",
+  "Muahh! 💋",
+  "Rindu sangat! 🥺",
+  "Bunga buat Sayang 🌹",
+  "Luv u, Sayang! ✨",
+  "Dia saya punya! 👑",
+  "Sayang Selamanya 💐",
+  "Jangan grumpy ya 😊",
+  "You are perfect 🧸",
+  "My baby grumpy 🌸"
+];
+
+class PixelBloomingFlower {
+  constructor(x, y, isClicked = false, spriteType = null) {
+    this.x = x;
+    this.y = y;
+    this.isClicked = isClicked;
+    this.scale = 0;
+    this.bloomProgress = 0;
+    
+    // Staggered flower types
+    const types = ['rose', 'daisy', 'tulip', 'sunflower'];
+    this.type = spriteType || types[Math.floor(Math.random() * types.length)];
+    
+    const spriteMaps = {
+      rose: SPRITE_ROSE,
+      daisy: SPRITE_DAISY,
+      tulip: SPRITE_TULIP,
+      sunflower: SPRITE_SUNFLOWER
+    };
+    this.sprite = spriteMaps[this.type];
+    this.palette = PALETTES[this.type];
+    
+    // Choose size based on viewport
+    const baseMin = window.innerWidth < 768 ? 26 : 42;
+    const baseMax = window.innerWidth < 768 ? 38 : 62;
+    this.size = Math.random() * (baseMax - baseMin) + baseMin;
+    
+    // How fast it blooms
+    this.growSpeed = Math.random() * 0.02 + 0.012;
+    
+    // Physics
+    this.vy = isClicked ? (Math.random() * 1.6 + 1.0) : (Math.random() * 2.0 + 1.4);
+    this.vx = (Math.random() - 0.5) * 1.0;
+    this.wobbleSpeed = Math.random() * 0.03 + 0.015;
+    this.wobblePhase = Math.random() * Math.PI * 2;
+    
+    this.rotation = (Math.random() - 0.5) * 0.3; // small initial tilt
+    this.vRotation = (Math.random() - 0.5) * 0.008;
+    
+    this.alpha = 1.0;
+    this.state = 'falling'; // 'falling', 'landing', 'fading'
+    this.sparkles = [];
+  }
+  
+  update(width, height) {
+    // 1. Grow/bloom
+    if (this.bloomProgress < 1) {
+      this.bloomProgress += this.growSpeed;
+      if (this.bloomProgress > 1) this.bloomProgress = 1;
+    }
+    this.scale = this.bloomProgress;
+    
+    // 2. Spawn and update sparkles
+    if (Math.random() < 0.15 && this.bloomProgress < 0.95) {
+      this.sparkles.push({
+        x: (Math.random() - 0.5) * (this.size * 0.5),
+        y: (Math.random() - 0.5) * (this.size * 0.5),
+        alpha: 1.0,
+        decay: Math.random() * 0.035 + 0.018,
+        size: Math.random() * 3 + 1,
+        color: Math.random() > 0.4 ? '#ffccd5' : '#fcbf49'
+      });
+    }
+    
+    for (let i = this.sparkles.length - 1; i >= 0; i--) {
+      this.sparkles[i].alpha -= this.sparkles[i].decay;
+      if (this.sparkles[i].alpha <= 0) {
+        this.sparkles.splice(i, 1);
+      }
+    }
+    
+    // 3. Falling and landing logic
+    if (this.state === 'falling') {
+      this.y += this.vy;
+      this.x += this.vx + Math.sin(this.wobblePhase) * 0.25;
+      this.wobblePhase += this.wobbleSpeed;
+      this.rotation += this.vRotation;
+      
+      // Stop falling and settle on the floor (leave margin for pile)
+      if (this.y >= height - 35) {
+        this.y = height - 35;
+        this.state = 'landing';
+        this.vy = 0;
+        this.vx = 0;
+        this.vRotation = 0;
+        setTimeout(() => {
+          this.state = 'fading';
+        }, Math.random() * 2500 + 2000); // stay on bottom for 2-4.5s
+      }
+    } else if (this.state === 'fading') {
+      this.alpha -= 0.015; // fade out smoothly
+      if (this.alpha <= 0) {
+        return false;
+      }
+    }
+    
+    return true;
+  }
+  
+  draw(ctx) {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    
+    // Draw sparkles first (behind or around)
+    this.sparkles.forEach(s => {
+      ctx.fillStyle = s.color;
+      ctx.globalAlpha = s.alpha * this.alpha;
+      ctx.beginPath();
+      ctx.arc(this.x + s.x, this.y + s.y, s.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    
+    ctx.globalAlpha = this.alpha;
+    
+    const currentSize = this.size * this.scale;
+    const gridW = this.sprite[0].length;
+    const gridH = this.sprite.length;
+    const pixelSize = currentSize / Math.max(gridW, gridH);
+    
+    // Offset to draw around the center
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rotation);
+    
+    const offsetX = - (gridW * pixelSize) / 2;
+    const offsetY = - (gridH * pixelSize) / 2;
+    
+    // Render pixel grid sharp
+    ctx.imageSmoothingEnabled = false;
+    
+    for (let r = 0; r < gridH; r++) {
+      for (let c = 0; c < gridW; c++) {
+        const char = this.sprite[r][c];
+        if (char !== ' ') {
+          ctx.fillStyle = this.palette[char];
+          ctx.fillRect(
+            Math.floor(offsetX + c * pixelSize), 
+            Math.floor(offsetY + r * pixelSize), 
+            Math.ceil(pixelSize), 
+            Math.ceil(pixelSize)
+          );
+        }
+      }
+    }
+    
+    ctx.restore();
+  }
+}
+
+// Initialise FAB button behaviors and state
+function initFlowerRain() {
+  flowerCanvas = document.getElementById('flower-rain-canvas');
+  if (flowerCanvas) {
+    flowerCtx = flowerCanvas.getContext('2d');
+  }
+  
+  // Set up resize handler
+  window.addEventListener('resize', () => {
+    if (flowerCanvas && flowerRainActive) {
+      flowerCanvas.width = window.innerWidth;
+      flowerCanvas.height = window.innerHeight;
+    }
+  });
+  
+  // Retrieve counter from storage
+  totalFlowersSent = parseInt(localStorage.getItem('total_flowers_sent') || '0');
+  const counterVal = document.getElementById('flower-counter-val');
+  if (counterVal) {
+    counterVal.textContent = totalFlowersSent.toLocaleString();
+  }
+  
+  // Add screen click/tap interaction to spawn flowers and float text
+  if (flowerCanvas) {
+    const triggerSpawn = (e) => {
+      if (!flowerRainActive) return;
+      
+      const clientX = e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX);
+      const clientY = e.clientY || (e.touches && e.touches[0] && e.touches[0].clientY);
+      
+      if (clientX !== undefined && clientY !== undefined) {
+        // Spawn 3 flowers per click
+        for (let i = 0; i < 3; i++) {
+          const spreadX = (Math.random() - 0.5) * 40;
+          const spreadY = (Math.random() - 0.5) * 40;
+          spawnFlower(clientX + spreadX, clientY + spreadY, true);
+        }
+        
+        // Spawn one beautiful text bubble
+        spawnFloatingText(clientX, clientY);
+      }
+    };
+    
+    flowerCanvas.addEventListener('mousedown', triggerSpawn);
+    flowerCanvas.addEventListener('touchstart', triggerSpawn, { passive: true });
+  }
+}
+
+// Show/Hide Floating Action Button
+function showFlowerFab() {
+  const fab = document.getElementById('flower-fab');
+  if (fab && localStorage.getItem('love_session') === 'true') {
+    fab.classList.remove('hidden');
+  }
+}
+
+// Hide Floating Action Button
+function hideFlowerFab() {
+  const fab = document.getElementById('flower-fab');
+  if (fab) {
+    fab.classList.add('hidden');
+  }
+}
+
+// Open Overlay and start rain loop
+function openFlowerRain() {
+  const overlay = document.getElementById('flower-rain-overlay');
+  if (!overlay || !flowerCanvas) return;
+  
+  flowerRainActive = true;
+  hideFlowerFab();
+  
+  // Prevent main content from scrolling
+  const mainContent = document.getElementById('main-content');
+  if (mainContent) mainContent.style.overflow = 'hidden';
+  
+  // Set canvas size
+  flowerCanvas.width = window.innerWidth;
+  flowerCanvas.height = window.innerHeight;
+  
+  // Reset lists
+  flowerList = [];
+  
+  // Show overlay
+  overlay.classList.add('visible');
+  
+  // Start engine loop
+  lastAutoSpawnTime = performance.now();
+  if (flowerRainAnimationId) {
+    cancelAnimationFrame(flowerRainAnimationId);
+  }
+  flowerRainAnimationId = requestAnimationFrame(renderFlowerRainLoop);
+  
+  // Initial blast of falling flowers
+  const count = window.innerWidth < 768 ? 10 : 25;
+  for (let i = 0; i < count; i++) {
+    const rx = Math.random() * flowerCanvas.width;
+    const ry = Math.random() * -flowerCanvas.height * 0.8;
+    spawnFlower(rx, ry, false);
+  }
+}
+
+// Close Overlay and stop loop
+function closeFlowerRain() {
+  const overlay = document.getElementById('flower-rain-overlay');
+  if (!overlay) return;
+  
+  flowerRainActive = false;
+  showFlowerFab();
+  
+  // Restore main content scrolling
+  const mainContent = document.getElementById('main-content');
+  if (mainContent) mainContent.style.overflow = 'auto';
+  
+  overlay.classList.remove('visible');
+  
+  if (flowerRainAnimationId) {
+    cancelAnimationFrame(flowerRainAnimationId);
+    flowerRainAnimationId = null;
+  }
+  
+  // Clear the canvas
+  if (flowerCtx) {
+    flowerCtx.clearRect(0, 0, flowerCanvas.width, flowerCanvas.height);
+  }
+}
+
+// Spawn flower helper
+function spawnFlower(x, y, isClicked = false) {
+  flowerList.push(new PixelBloomingFlower(x, y, isClicked));
+  
+  if (isClicked) {
+    totalFlowersSent++;
+    localStorage.setItem('total_flowers_sent', totalFlowersSent);
+    const counterVal = document.getElementById('flower-counter-val');
+    if (counterVal) {
+      counterVal.textContent = totalFlowersSent.toLocaleString();
+    }
+  }
+}
+
+// Float text popup bubbles helper
+function spawnFloatingText(x, y) {
+  const container = document.getElementById('flower-message-container');
+  if (!container) return;
+  
+  const bubble = document.createElement('div');
+  bubble.className = 'floating-flower-text';
+  
+  // Choose random sweet message
+  const msg = FLOWER_MESSAGES[Math.floor(Math.random() * FLOWER_MESSAGES.length)];
+  bubble.textContent = msg;
+  
+  // Set coordinate and spread
+  bubble.style.left = `${x}px`;
+  bubble.style.top = `${y}px`;
+  
+  container.appendChild(bubble);
+  
+  // Automatically clean up DOM element after animation ends
+  setTimeout(() => {
+    bubble.remove();
+  }, 2200);
+}
+
+// Animation loop
+function renderFlowerRainLoop(timestamp) {
+  if (!flowerRainActive || !flowerCtx || !flowerCanvas) return;
+  
+  // Auto spawn new falling flowers over time
+  const autoSpawnInterval = window.innerWidth < 768 ? 600 : 350; // ms
+  if (timestamp - lastAutoSpawnTime > autoSpawnInterval) {
+    const rx = Math.random() * flowerCanvas.width;
+    spawnFlower(rx, -40, false);
+    lastAutoSpawnTime = timestamp;
+  }
+  
+  // Clear canvas
+  flowerCtx.clearRect(0, 0, flowerCanvas.width, flowerCanvas.height);
+  
+  // Update and draw all active flowers
+  for (let i = flowerList.length - 1; i >= 0; i--) {
+    const flower = flowerList[i];
+    const isAlive = flower.update(flowerCanvas.width, flowerCanvas.height);
+    if (isAlive) {
+      flower.draw(flowerCtx);
+    } else {
+      flowerList.splice(i, 1);
+    }
+  }
+  
+  flowerRainAnimationId = requestAnimationFrame(renderFlowerRainLoop);
 }

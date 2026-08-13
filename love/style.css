@@ -835,3 +835,240 @@ body.warp-zoomed {
     font-size: 0.65rem !important; /* Smaller label text */
   }
 }
+
+/* ==========================================================================
+   FLOWER RAIN OVERLAY & FAB STYLES
+   ========================================================================== */
+
+/* Floating Action Button (FAB) */
+.flower-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 77, 109, 0.4);
+  background: linear-gradient(135deg, var(--rose-primary), var(--rose-dark));
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.flower-fab.hidden {
+  opacity: 0;
+  transform: scale(0.8) translateY(20px);
+  pointer-events: none;
+}
+
+.flower-fab:not(.hidden) {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.flower-fab:hover {
+  transform: scale(1.08) translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 77, 109, 0.6), var(--glow-pink-strong);
+}
+
+.flower-fab-icon {
+  font-size: 1.2rem;
+  animation: fabFlowerSpin 6s infinite linear;
+}
+
+@keyframes fabFlowerSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Fullscreen Overlay */
+.flower-rain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background: radial-gradient(circle at center, #1b020c 0%, #050003 100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  overflow: hidden;
+}
+
+.flower-rain-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Canvas */
+#flower-rain-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+  cursor: crosshair;
+}
+
+/* Close Button */
+.flower-close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.flower-close-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+/* HUD Panel */
+.flower-hud {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+  pointer-events: none;
+}
+
+.flower-hud-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff0f3;
+  margin-bottom: 12px;
+}
+
+.flower-hud-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  border-radius: 50px;
+  background: rgba(255, 77, 109, 0.05);
+  border: 1px solid rgba(255, 77, 109, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(255, 77, 109, 0.05);
+}
+
+.flower-counter-icon {
+  font-size: 1.2rem;
+}
+
+.flower-counter-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ffb5a7;
+  font-weight: 600;
+}
+
+.flower-counter-val {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ff4d6d;
+  text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+  font-family: var(--font-serif);
+}
+
+.flower-counter-suffix {
+  font-size: 0.85rem;
+  color: #ffccd5;
+  font-weight: 600;
+}
+
+.flower-hud-hint {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 10px;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+/* Floating Messages */
+.flower-message-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.floating-flower-text {
+  position: absolute;
+  font-family: var(--font-handwritten);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff0f3;
+  text-shadow: 0 2px 10px rgba(255, 77, 109, 0.8), 0 0 20px rgba(255, 77, 109, 0.4);
+  transform: translate(-50%, -50%);
+  animation: floatUpAndAway 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  white-space: nowrap;
+}
+
+@keyframes floatUpAndAway {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.6) rotate(-10deg);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -20px) scale(1.1) rotate(5deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -130px) scale(0.8) rotate(-5deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .flower-hud-title {
+    font-size: 1.4rem;
+  }
+  .flower-counter-val {
+    font-size: 1.3rem;
+  }
+  .flower-close-btn {
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+  .floating-flower-text {
+    font-size: 1.4rem;
+  }
+}
