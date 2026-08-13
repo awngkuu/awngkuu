@@ -437,39 +437,87 @@ body.warp-zoomed {
 }
 
 /* Polaroid Photos styling */
+/* Polaroid Photos styling - Uniform sizes & flex layout */
 .polaroid-card {
   background: white;
-  padding: 12px 12px 24px 12px;
+  padding: 12px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-  border-radius: 4px;
+  border-radius: 12px;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   color: #333;
+  display: flex;
+  flex-direction: column;
+  height: 330px; /* Fixed height for clean and uniform grid/slider */
+  justify-content: space-between;
+  transform-style: preserve-3d;
+  box-sizing: border-box;
 }
 
 .polaroid-card:hover {
-  transform: translateY(-8px) rotate(0deg) scale(1.04) !important;
-  box-shadow: 0 18px 40px rgba(255, 77, 109, 0.35);
+  transform: translateY(-10px) rotate(0deg) scale(1.05) !important;
+  box-shadow: 0 20px 40px rgba(255, 77, 109, 0.3) !important;
   z-index: 10;
 }
 
 .polaroid-img-container {
   width: 100%;
-  height: 220px;
+  height: 200px;
   background: #f0f0f0;
   position: relative;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .polaroid-caption {
   font-family: var(--font-handwritten);
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   text-align: center;
-  margin-top: 12px;
+  margin-top: 10px;
   color: #331018;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.25;
+  overflow: hidden;
+}
+
+/* Memories Horizontal Track Styling */
+.memories-track {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
+}
+
+.memories-track::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.memories-track .polaroid-card {
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+  width: 270px; /* Consistent card width */
+}
+
+/* Mobile Menu Overlay Styling */
+#mobile-menu-overlay.visible {
+  transform: translateY(0);
+}
+
+/* Responsive envelope adjustments */
+@media screen and (max-width: 360px) {
+  .envelope-wrapper {
+    width: 280px !important;
+    height: 190px !important;
+  }
+  .memories-track .polaroid-card {
+    width: 235px;
+  }
 }
 
 /* 3D Envelope Styling */

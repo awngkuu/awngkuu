@@ -128,8 +128,8 @@
         <a href="#special-message" class="hover:text-pink-100 transition-colors">Love Letter</a>
       </div>
       
-      <!-- Equalizer + Log out buttons -->
-      <div class="flex items-center gap-5">
+      <!-- Equalizer + Log out + Mobile menu buttons -->
+      <div class="flex items-center gap-3 md:gap-5">
         <!-- Floating Equalizer Music Control -->
         <div id="music-toggle" class="equalizer-bar-container paused" onclick="toggleMusic(event)" title="Mute/Unmute Music">
           <div class="eq-bar eq-1"></div>
@@ -137,11 +137,36 @@
           <div class="eq-bar eq-3"></div>
           <div class="eq-bar eq-4"></div>
         </div>
-        <button onclick="logout()" class="px-4 py-1.5 text-xs bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-pink-200 transition">
+        <button onclick="logout()" class="hidden sm:block px-4 py-1.5 text-xs bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-pink-200 transition">
           Log Out
+        </button>
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2 text-pink-200 hover:text-pink-100 focus:outline-none flex items-center justify-center" title="Toggle Navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
         </button>
       </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-[#060104]/98 backdrop-blur-xl z-[49] flex flex-col justify-center items-center gap-8 -translate-y-full transition-transform duration-500 ease-in-out lg:hidden">
+      <!-- Close button -->
+      <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 p-2.5 border border-white/10 rounded-full text-pink-200 hover:text-pink-100 bg-white/5 w-10 h-10 flex items-center justify-center" title="Close Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <a href="#our-story" onclick="toggleMobileMenu()" class="font-serif text-2xl text-pink-200 hover:text-pink-100 transition-colors">// Our Story</a>
+      <a href="#memories" onclick="toggleMobileMenu()" class="font-serif text-2xl text-pink-200 hover:text-pink-100 transition-colors">// Memories</a>
+      <a href="#reasons" onclick="toggleMobileMenu()" class="font-serif text-2xl text-pink-200 hover:text-pink-100 transition-colors">// Reasons</a>
+      <a href="#quiz-section" onclick="toggleMobileMenu()" class="font-serif text-2xl text-pink-200 hover:text-pink-100 transition-colors">// Mini Quiz</a>
+      <a href="#countdown" onclick="toggleMobileMenu()" class="font-serif text-2xl text-pink-200 hover:text-pink-100 transition-colors">// Timer</a>
+      <a href="#special-message" onclick="toggleMobileMenu()" class="font-serif text-2xl text-pink-200 hover:text-pink-100 transition-colors">// Love Letter</a>
+      <button onclick="logout(); toggleMobileMenu()" class="px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-pink-200 text-sm transition mt-4">
+        Log Out
+      </button>
+    </div>
 
     <!-- Hero Section -->
     <header class="dashboard-hero py-24 relative overflow-hidden">
@@ -256,7 +281,23 @@
           <p class="text-pink-300 mt-4 text-sm md:text-base">Snapshots of our life filled with sweet laughter and love.</p>
         </div>
 
-        <div class="flex flex-wrap gap-8 justify-center mt-12">
+        <!-- Memories Slider Container -->
+        <div class="relative w-full mt-12 group/slider">
+          <!-- Navigation Arrows (Hidden on mobile, visible on hover on desktop) -->
+          <button id="slide-prev" class="absolute -left-4 md:-left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/60 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/50 text-white flex items-center justify-center transition-all z-20 opacity-0 group-hover/slider:opacity-100 pointer-events-none md:pointer-events-auto shadow-2xl hover:scale-105 active:scale-95" onclick="scrollMemories('left')" title="Previous Memory">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6 text-pink-300">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+          
+          <button id="slide-next" class="absolute -right-4 md:-right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/60 border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/50 text-white flex items-center justify-center transition-all z-20 opacity-0 group-hover/slider:opacity-100 pointer-events-none md:pointer-events-auto shadow-2xl hover:scale-105 active:scale-95" onclick="scrollMemories('right')" title="Next Memory">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6 text-pink-300">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+
+          <!-- Scrollable Track -->
+          <div id="memories-track" class="memories-track flex gap-6 overflow-x-auto py-8 px-4 scroll-smooth">
           <!-- Memory 1 -->
           <div class="polaroid-card w-64 -rotate-3">
             <div class="polaroid-img-container">
@@ -410,7 +451,8 @@
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
 
 

@@ -1109,3 +1109,26 @@ function showQuizResults() {
     </button>
   `;
 }
+
+// --- RESPONSIVE MEMORIES SLIDER SCROLLING ---
+function scrollMemories(direction) {
+  const track = document.getElementById('memories-track');
+  if (track) {
+    const cardWidth = track.firstElementChild ? track.firstElementChild.offsetWidth : 280;
+    const gap = 24; // gap-6 is 1.5rem = 24px
+    const scrollAmount = (cardWidth + gap) * 2;
+    if (direction === 'left') {
+      track.scrollLeft -= scrollAmount;
+    } else {
+      track.scrollLeft += scrollAmount;
+    }
+  }
+}
+
+// --- MOBILE OVERLAY NAVIGATION MENU ---
+function toggleMobileMenu() {
+  const overlay = document.getElementById('mobile-menu-overlay');
+  if (overlay) {
+    overlay.classList.toggle('visible');
+  }
+}
