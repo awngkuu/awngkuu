@@ -1280,20 +1280,20 @@ let totalFlowersSent = 0;
 let flowerRainAnimationId = null;
 let lastAutoSpawnTime = 0;
 
-// Malay words of endearment to float up when clicked
+// English words of endearment to float up when clicked
 const FLOWER_MESSAGES = [
-  "Untuk Sayang Grumpy! ❤️",
-  "Comel sangat! 🥰",
-  "Awang Busyuk Sayang Ayuni! 🤍",
+  "For My Grumpy Love! ❤️",
+  "So cute! 🥰",
+  "Awang Loves Ayuni! 🤍",
   "Muahh! 💋",
-  "Rindu sangat! 🥺",
-  "Bunga buat Sayang 🌹",
-  "Luv u, Sayang! ✨",
-  "Dia saya punya! 👑",
-  "Sayang Selamanya 💐",
-  "Jangan grumpy ya 😊",
+  "Miss you so much! 🥺",
+  "Flowers for you 🌹",
+  "Luv u, my love! ✨",
+  "You are mine! 👑",
+  "Love you forever 💐",
+  "Don't be grumpy 😊",
   "You are perfect 🧸",
-  "My baby grumpy 🌸"
+  "My grumpy baby 🌸"
 ];
 
 class PixelBloomingFlower {
@@ -1664,24 +1664,24 @@ function renderFlowerRainLoop(timestamp) {
 // --- MOOD TRACKER (BILIK EMOSI) CONFIGURATION & ACTIONS ---
 const MOOD_RESPONSES = {
   happy: {
-    text: "Melihat sayang gembira adalah kebahagiaan terbesar dalam hidup Awang. Terus senyum tau, Sayang comel gila bila gembira! 😊❤️",
-    author: "Dari Awang Busyuk"
+    text: "Seeing you happy is the greatest joy in my life. Keep smiling, my love, you are absolutely gorgeous when you smile! 😊❤️",
+    author: "From Awang Busyuk"
   },
   grumpy: {
-    text: "Sayang grumpy/marah ke? 😡 Janganlah marah Awang... Awang hantar sejambak bunga piksel bertalu-talu untuk sejukkan hati Sayang! 🌹",
-    author: "Sistem Pujukan Awang"
+    text: "Are you grumpy or angry, my love? 😡 Please don't be mad at Awang... here is a continuous cascade of pixel flowers to cool you down! 🌹",
+    author: "Awang's Cheering System"
   },
   sulking: {
-    text: "Sayang tengah merajuk eh? 🥺 Awang minta maaf kalau ada buat salah tau. Sini Awang peluk dan hantar hujan bunga piksel khas untuk sayang! 💐",
-    author: "Pelukan Virtual Awang"
+    text: "Are you sulking, sayang? 🥺 I am so sorry if I did something wrong. Here is a warm virtual hug and a special rain of pixel flowers just for you! 💐",
+    author: "Awang's Virtual Hug"
   },
   tired: {
-    text: "Penat ya sayang? Rehat secukupnya tau. Awang sentiasa ada di sini untuk dengar semua cerita dan luahan sayang. I'm always here. 😴💤",
-    author: "Tempat Rehat Sayang"
+    text: "Are you tired, my love? 😴 Get some rest. Awang is always here to listen to your stories and comfort you. I'm always here for you. 😴💤",
+    author: "Your Safe Haven"
   },
   missyou: {
-    text: "Awang pun tersangat-sangat rindu dekat Sayang! Sabar ya, nanti kita jumpa Awang peluk sayang kuat-kuat. Luv u! 🤍✨",
-    author: "Rindu Selamanya"
+    text: "Awang misses you so, so much too! Hang in there, my love. When we meet next, I'm going to hug you so tight. Luv u! 🤍✨",
+    author: "Missing You Always"
   }
 };
 
@@ -1738,7 +1738,7 @@ function selectMood(moodName, triggerActions = true) {
       openFlowerRain();
       const hudTitle = document.querySelector('.flower-hud-title');
       if (hudTitle) {
-        hudTitle.textContent = moodName === 'grumpy' ? "Pujuk Sayang Grumpy 😡🌹" : "Pujuk Sayang Merajuk 🥺💐";
+        hudTitle.textContent = moodName === 'grumpy' ? "Cheering Up My Grumpy Love 😡🌹" : "Cheering Up My Sulking Love 🥺💐";
       }
     }, 1500);
     
