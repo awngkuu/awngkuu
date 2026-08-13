@@ -509,14 +509,20 @@ body.warp-zoomed {
   transform: translateY(0);
 }
 
-/* Responsive envelope adjustments */
+/* Responsive envelope adjustments using transform-scale to preserve 3D borders */
 @media screen and (max-width: 360px) {
   .envelope-wrapper {
-    width: 280px !important;
-    height: 190px !important;
+    transform: scale(0.85);
+    margin: 0.5rem auto;
   }
   .memories-track .polaroid-card {
     width: 235px;
+  }
+}
+@media screen and (max-width: 320px) {
+  .envelope-wrapper {
+    transform: scale(0.75);
+    margin: 0rem auto;
   }
 }
 
@@ -1198,5 +1204,70 @@ body.warp-zoomed {
   }
   .mood-response-text {
     font-size: 1.4rem;
+  }
+  /* FAB mobile collapse to circle */
+  .flower-fab {
+    bottom: 16px;
+    right: 16px;
+    padding: 12px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+  }
+  .flower-fab-text {
+    display: none;
+  }
+  .flower-fab-icon {
+    font-size: 1.4rem;
+  }
+  /* Adjust flower rain overlay controls to prevent overlaps */
+  .flower-hud {
+    top: 90px;
+  }
+  .flower-close-btn {
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mood-btn {
+    padding: 8px 12px;
+    min-width: 65px;
+    border-radius: 14px;
+    gap: 4px;
+  }
+  .mood-emoji {
+    font-size: 1.4rem;
+  }
+  .mood-name {
+    font-size: 0.65rem;
+  }
+  .mood-container {
+    padding: 1.5rem 1rem !important;
+  }
+  .mood-response-card {
+    padding: 1.2rem 1rem !important;
+    margin-top: 1.5rem;
+  }
+  .mood-response-text {
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+  .flower-hud-title {
+    font-size: 1.25rem !important;
+  }
+  .flower-counter-label, .flower-counter-suffix {
+    font-size: 0.75rem !important;
+  }
+  .flower-counter-val {
+    font-size: 1.1rem !important;
+  }
+  .flower-hud-hint {
+    font-size: 0.75rem !important;
   }
 }
