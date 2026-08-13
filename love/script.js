@@ -440,6 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCardTilts();
     initFlowerRain();
     showFlowerFab();
+    loadSavedMood();
     return;
   }
 
@@ -479,6 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize 3D card tilt behaviors
   initCardTilts();
   initFlowerRain();
+  loadSavedMood();
 });
 
 
@@ -1658,3 +1660,117 @@ function renderFlowerRainLoop(timestamp) {
   
   flowerRainAnimationId = requestAnimationFrame(renderFlowerRainLoop);
 }
+
+// --- MOOD TRACKER (BILIK EMOSI) CONFIGURATION & ACTIONS ---
+const MOOD_RESPONSES = {
+  happy: {
+    text: "Melihat sayang gembira adalah kebahagiaan terbesar dalam hidup Awang. Terus senyum tau, Sayang comel gila bila gembira! 😊❤️",
+    author: "Dari Awang Busyuk"
+  },
+  grumpy: {
+    text: "Sayang grumpy/marah ke? 😡 Janganlah marah Awang... Awang hantar sejambak bunga piksel bertalu-talu untuk sejukkan hati Sayang! 🌹",
+    author: "Sistem Pujukan Awang"
+  },
+  sulking: {
+    text: "Sayang tengah merajuk eh? 🥺 Awang minta maaf kalau ada buat salah tau. Sini Awang peluk dan hantar hujan bunga piksel khas untuk sayang! 💐",
+    author: "Pelukan Virtual Awang"
+  },
+  tired: {
+    text: "Penat ya sayang? Rehat secukupnya tau. Awang sentiasa ada di sini untuk dengar semua cerita dan luahan sayang. I'm always here. 😴💤",
+    author: "Tempat Rehat Sayang"
+  },
+  missyou: {
+    text: "Awang pun tersangat-sangat rindu dekat Sayang! Sabar ya, nanti kita jumpa Awang peluk sayang kuat-kuat. Luv u! 🤍✨",
+    author: "Rindu Selamanya"
+  }
+};
+
+// Load saved mood on startup
+function loadSavedMood() {
+  const savedMood = localStorage.getItem('ayuni_current_mood');
+  if (savedMood && MOOD_RESPONSES[savedMood]) {
+    selectMood(savedMood, false);
+  }
+}
+
+// Handle mood selection and trigger effects
+function selectMood(moodName, triggerActions = true) {
+  const responseCard = document.getElementById('mood-response-card');
+  if (!responseCard || !MOOD_RESPONSES[moodName]) return;
+  
+  // 1. Remove active state from all buttons
+  const buttons = document.querySelectorAll('.mood-btn');
+  buttons.forEach(btn => btn.classList.remove('active-mood'));
+  
+  // 2. Add active state to selected button
+  const selectedBtn = document.getElementById(`mood-${moodName}`);
+  if (selectedBtn) {
+    selectedBtn.classList.add('active-mood');
+  }
+  
+  // 3. Save to localStorage
+  localStorage.setItem('ayuni_current_mood', moodName);
+  
+  // 4. Update response text with reflow-triggered animation
+  const res = MOOD_RESPONSES[moodName];
+  
+  responseCard.style.animation = 'none';
+  responseCard.offsetHeight; // trigger reflow
+  responseCard.style.animation = 'cardFadeIn 0.5s ease-out';
+  
+  responseCard.innerHTML = `
+    <div class="mood-response-text">"${res.text}"</div>
+    <div class="mood-response-author">— ${res.author}</div>
+  `;
+  
+  // 5. Trigger special actions (only if clicked manually)
+  if (!triggerActions) return;
+  
+  if (moodName === 'grumpy' || moodName === 'sulking') {
+    // Blast small explosion at the button
+    if (selectedBtn) {
+      const rect = selectedBtn.getBoundingClientRect();
+      spawnExplosion(rect.left + rect.width/2, rect.top + rect.height/2, 0.8);
+    }
+    
+    // Auto-launch flower rain after 1.5 seconds
+    setTimeout(() => {
+      openFlowerRain();
+      const hudTitle = document.querySelector('.flower-hud-title');
+      if (hudTitle) {
+        hudTitle.textContent = moodName === 'grumpy' ? "Pujuk Sayang Grumpy 😡🌹" : "Pujuk Sayang Merajuk 🥺💐";
+      }
+    }, 1500);
+    
+  } else if (moodName === 'missyou') {
+    // Fire multiple heart explosions across the screen
+    let explosionCount = 0;
+    const triggerHeartExplosions = setInterval(() => {
+      const rx = Math.random() * window.innerWidth;
+      const ry = Math.random() * window.innerHeight;
+      spawnExplosion(rx, ry, 1.2);
+      explosionCount++;
+      if (explosionCount >= 5) {
+        clearInterval(triggerHeartExplosions);
+      }
+    }, 350);
+    
+  } else if (moodName === 'happy') {
+    // Triple spark burst
+    if (selectedBtn) {
+      const rect = selectedBtn.getBoundingClientRect();
+      spawnExplosion(rect.left + rect.width/2, rect.top + rect.height/2, 1.2);
+      setTimeout(() => {
+        spawnExplosion(rect.left + rect.width/2 - 100, rect.top + rect.height/2 - 100, 0.9);
+        spawnExplosion(rect.left + rect.width/2 + 100, rect.top + rect.height/2 - 100, 0.9);
+      }, 300);
+    }
+  } else if (moodName === 'tired') {
+    // Slow down background particle physics for 8 seconds
+    transitionSpeedMultiplier = 0.35;
+    setTimeout(() => {
+      transitionSpeedMultiplier = 1.0;
+    }, 8000);
+  }
+}
+

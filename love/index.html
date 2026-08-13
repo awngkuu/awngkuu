@@ -195,6 +195,46 @@
       </div>
     </header>
 
+    <!-- SECTION 0.5: BILIK EMOSI AYUNI -->
+    <section id="mood-tracker-section" class="py-12 px-6 max-w-4xl mx-auto scroll-reveal">
+      <div class="mood-container glass-panel p-8 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-rose-500/5 -z-10"></div>
+        
+        <h2 class="text-2xl md:text-3xl font-bold font-serif text-pink-100 mb-2 glow-text">Bilik Emosi Ayuni 💖</h2>
+        <p class="text-pink-300 text-sm md:text-base mb-8">Bagaimana perasaan Sayang hari ini? Pilih mood untuk terima pesanan khas daripada Awang!</p>
+        
+        <!-- Mood Selector Buttons -->
+        <div class="flex flex-wrap justify-center gap-3 sm:gap-5 mb-8">
+          <button id="mood-happy" class="mood-btn" onclick="selectMood('happy')" title="Happy">
+            <span class="mood-emoji">😊</span>
+            <span class="mood-name">Happy</span>
+          </button>
+          <button id="mood-grumpy" class="mood-btn" onclick="selectMood('grumpy')" title="Grumpy">
+            <span class="mood-emoji">😡</span>
+            <span class="mood-name">Grumpy</span>
+          </button>
+          <button id="mood-sulking" class="mood-btn" onclick="selectMood('sulking')" title="Sulking">
+            <span class="mood-emoji">🥺</span>
+            <span class="mood-name">Sulking</span>
+          </button>
+          <button id="mood-tired" class="mood-btn" onclick="selectMood('tired')" title="Tired">
+            <span class="mood-emoji">😴</span>
+            <span class="mood-name">Tired</span>
+          </button>
+          <button id="mood-missyou" class="mood-btn" onclick="selectMood('missyou')" title="Miss You">
+            <span class="mood-emoji">🤍</span>
+            <span class="mood-name">Miss You</span>
+          </button>
+        </div>
+        
+        <!-- Dynamic Response Card -->
+        <div id="mood-response-card" class="mood-response-card glass-panel-light p-6 md:p-8 max-w-xl mx-auto">
+          <div class="text-rose-450 font-serif text-lg mb-2">Pilih mood di atas...</div>
+          <div class="text-pink-200/80 text-sm italic font-sans">Kotak emosi sedia menerima perasaan Sayang ❤️</div>
+        </div>
+      </div>
+    </section>
+
     <!-- SECTION 1: OUR STORY -->
     <section id="our-story" class="py-24 px-6 max-w-6xl mx-auto scroll-reveal">
       <div class="text-center mb-16">

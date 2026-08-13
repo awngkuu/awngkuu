@@ -1074,3 +1074,129 @@ body.warp-zoomed {
     font-size: 1.4rem;
   }
 }
+
+/* ==========================================================================
+   MOOD TRACKER (BILIK EMOSI) STYLES
+   ========================================================================== */
+.mood-container {
+  border: 1px solid rgba(255, 77, 109, 0.15);
+  box-shadow: 0 10px 40px rgba(255, 77, 109, 0.05);
+}
+
+.mood-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 14px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  min-width: 90px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.mood-btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: rgba(255, 77, 109, 0.08);
+  border-color: rgba(255, 77, 109, 0.35);
+  box-shadow: 0 8px 20px rgba(255, 77, 109, 0.15);
+}
+
+.mood-emoji {
+  font-size: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.mood-btn:hover .mood-emoji {
+  transform: scale(1.2) rotate(8deg);
+}
+
+.mood-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffccd5;
+  font-family: var(--font-sans);
+}
+
+/* Active Mood State */
+.mood-btn.active-mood {
+  background: linear-gradient(135deg, rgba(255, 77, 109, 0.25), rgba(201, 24, 74, 0.25));
+  border-color: var(--rose-primary);
+  box-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.mood-btn.active-mood .mood-emoji {
+  animation: moodPulse 1.2s infinite ease-in-out;
+}
+
+@keyframes moodPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* Response Card */
+.mood-response-card {
+  margin-top: 2rem;
+  border-radius: 20px;
+  transition: all 0.5s ease;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  animation: cardFadeIn 0.5s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.mood-response-text {
+  font-family: var(--font-handwritten);
+  font-size: 1.8rem;
+  line-height: 1.6;
+  color: #fff0f3;
+  text-shadow: 0 2px 8px rgba(255, 77, 109, 0.4);
+}
+
+.mood-response-author {
+  font-size: 0.8rem;
+  color: #ffccd5;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 12px;
+}
+
+@keyframes cardFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  .mood-btn {
+    padding: 10px 16px;
+    min-width: 75px;
+  }
+  .mood-emoji {
+    font-size: 1.6rem;
+  }
+  .mood-name {
+    font-size: 0.7rem;
+  }
+  .mood-response-text {
+    font-size: 1.4rem;
+  }
+}
