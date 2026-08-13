@@ -772,3 +772,66 @@ body.warp-zoomed {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* --- EXTRA MOBILE RESPONSIVENESS OVERRIDES & OPTIMIZATIONS --- */
+
+/* 1. Flatten memories cards in track and align layout */
+.memories-track .polaroid-card {
+  transform: none !important; /* Disable all random rotations in the horizontal slider! */
+}
+
+/* 2. Responsive paddings for Reason Cards & Quiz Card */
+.reason-card {
+  padding: 1.25rem !important; /* Mobile padding */
+}
+
+#quiz-card {
+  padding: 1.25rem !important; /* Mobile padding */
+}
+
+@media (min-width: 640px) {
+  .reason-card {
+    padding: 1.5rem !important; /* Tablet padding */
+  }
+  #quiz-card {
+    padding: 2rem !important; /* Tablet padding */
+  }
+}
+
+@media (min-width: 768px) {
+  .reason-card {
+    padding: 2rem !important; /* Desktop padding */
+  }
+}
+
+/* 3. Ultra-Responsive Timeline on small screens */
+@media screen and (max-width: 640px) {
+  .timeline-container::after {
+    left: 15px !important; /* Shift line to the left to maximize text space */
+  }
+  .timeline-item {
+    padding-left: 35px !important; /* Reduce left indent */
+    padding-right: 10px !important;
+  }
+  .timeline-item::after {
+    left: 3px !important; /* Align dot center to line: 3px + 12px = 15px */
+  }
+  .timeline-item .glass-panel {
+    padding: 1rem !important; /* Reduce card padding so text isn't squished */
+  }
+}
+
+/* 4. Responsive Counter Boxes */
+@media screen and (max-width: 768px) {
+  .counter-box {
+    min-width: unset !important;
+    max-width: unset !important;
+    padding: 0.75rem 0.5rem !important; /* Compact padding */
+  }
+  .counter-box .counter-value {
+    font-size: 1.75rem !important; /* Slightly smaller numbers so they don't break lines */
+  }
+  .counter-box .text-xs {
+    font-size: 0.65rem !important; /* Smaller label text */
+  }
+}
