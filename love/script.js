@@ -1664,24 +1664,24 @@ function renderFlowerRainLoop(timestamp) {
 // --- MOOD TRACKER (BILIK EMOSI) CONFIGURATION & ACTIONS ---
 const MOOD_RESPONSES = {
   happy: {
-    text: "Seeing you happy is the greatest joy in my life. Keep smiling, my love, you are absolutely gorgeous when you smile! 😊❤️",
-    author: "From Awang Busyuk"
+    text: "Seeing you happy is literally the best thing in my life. Keep smiling okay, you look super cute when you smile! 😊❤️",
+    author: "I love you"
   },
   grumpy: {
-    text: "Are you grumpy or angry, my love? 😡 Please don't be mad at Awang... here is a continuous cascade of pixel flowers to cool you down! 🌹",
-    author: "Awang's Cheering System"
+    text: "Are you grumpy or mad at me? 😡 Pls don't be mad... here is a cascade of pixel flowers to cheer you up! 🌹",
+    author: "I got you"
   },
   sulking: {
-    text: "Are you sulking, sayang? 🥺 I am so sorry if I did something wrong. Here is a warm virtual hug and a special rain of pixel flowers just for you! 💐",
-    author: "Awang's Virtual Hug"
+    text: "Are you sulking? 🥺 I'm so sorry if I did anything wrong. Sending you a big virtual hug and a special rain of pixel flowers! 💐",
+    author: "I'm sorry ❤️"
   },
   tired: {
-    text: "Are you tired, my love? 😴 Get some rest. Awang is always here to listen to your stories and comfort you. I'm always here for you. 😴💤",
-    author: "Your Safe Haven"
+    text: "Are you tired? 😴 Go get some rest okay. I'm always here to listen to you and keep you comfy. I got your back. 😴💤",
+    author: "Rest well"
   },
   missyou: {
-    text: "Awang misses you so, so much too! Hang in there, my love. When we meet next, I'm going to hug you so tight. Luv u! 🤍✨",
-    author: "Missing You Always"
+    text: "I miss you so, so much too! Hang in there. Next time we meet, I'm gonna hug you so tight. Luv u! 🤍✨",
+    author: "Miss you more"
   }
 };
 
