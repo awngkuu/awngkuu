@@ -1282,13 +1282,13 @@ let lastAutoSpawnTime = 0;
 
 // English words of endearment to float up when clicked
 const FLOWER_MESSAGES = [
-  "For My Grumpy Love! ❤️",
+  "For You! ❤️",
   "So cute! 🥰",
-  "Awang Loves Ayuni! 🤍",
+  "I Love You! 🤍",
   "Muahh! 💋",
   "Miss you so much! 🥺",
   "Flowers for you 🌹",
-  "Luv u, my love! ✨",
+  "Luv u! ✨",
   "You are mine! 👑",
   "Love you forever 💐",
   "Don't be grumpy 😊",
@@ -1738,7 +1738,7 @@ function selectMood(moodName, triggerActions = true) {
       openFlowerRain();
       const hudTitle = document.querySelector('.flower-hud-title');
       if (hudTitle) {
-        hudTitle.textContent = moodName === 'grumpy' ? "Cheering Up My Grumpy Love 😡🌹" : "Cheering Up My Sulking Love 🥺💐";
+        hudTitle.textContent = moodName === 'grumpy' ? "Cheering You Up 😡🌹" : "Cheering You Up 🥺💐";
       }
     }, 1500);
     
