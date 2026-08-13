@@ -1,0 +1,726 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&family=Dancing+Script:wght@400..700&display=swap');
+
+:root {
+  --rose-primary: #ff4d6d;
+  --rose-light: #ff758f;
+  --rose-dark: #c9184a;
+  --rose-accent: #ff8fa3;
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Quicksand', sans-serif;
+  --font-handwritten: 'Dancing Script', cursive;
+  --glow-pink: 0 0 15px rgba(255, 77, 109, 0.6);
+  --glow-pink-strong: 0 0 35px rgba(255, 77, 109, 0.95);
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #060104;
+}
+::-webkit-scrollbar-thumb {
+  background: #c9184a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff4d6d;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #060104;
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), #350518 0%, #060104 80%);
+  color: #fff1f2;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), filter 1.5s ease;
+}
+
+/* Warp Zoom Viewport Effect on successful login */
+body.warp-zoomed {
+  transform: scale(0.92);
+  filter: blur(10px) brightness(0.6);
+}
+
+/* Canvas overlay */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 5;
+  pointer-events: none;
+  transition: opacity 1.5s ease;
+}
+
+/* Glassmorphic Cards */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  border-radius: 24px;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px 0 rgba(255, 77, 109, 0.05);
+  border-radius: 20px;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.1s ease, box-shadow 0.3s ease;
+}
+
+/* Stage Screen States */
+.stage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1), transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), visibility 1.5s;
+}
+
+.stage.hidden {
+  opacity: 0;
+  transform: scale(1.05) translateY(-10px);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* Intro Stage Layout */
+#intro-screen {
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), #260210 0%, #030002 85%);
+  z-index: 30;
+}
+
+/* Centered Interactive Heart wrapper */
+.heart-interactive-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 260px;
+  height: 260px;
+  margin-bottom: 2rem;
+}
+
+/* Beating heartbeat sequence */
+.pulse-heart {
+  animation: heartbeat 1.6s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+  transform-origin: center;
+  cursor: pointer;
+  z-index: 12;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.pulse-heart:hover {
+  filter: drop-shadow(var(--glow-pink-strong));
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.1); }
+  28% { transform: scale(1.04); }
+  42% { transform: scale(1.15); }
+  70% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+/* Heartbeat radiating ripple rings */
+.heart-pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 130px;
+  height: 130px;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 10;
+  color: rgba(255, 77, 109, 0.35);
+  animation: heartRingScale 2.5s infinite cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.ring-2 {
+  animation-delay: 1.25s;
+}
+
+@keyframes heartRingScale {
+  0% {
+    transform: translate(-50%, -50%) scale(0.85);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Heart Portal Expansion Animation */
+#intro-heart.expanded svg {
+  animation: none;
+  transform: scale(45);
+  opacity: 0;
+  filter: drop-shadow(0 0 50px rgba(255, 77, 109, 1));
+  transition: transform 1.6s cubic-bezier(0.86, 0, 0.07, 1), opacity 1.2s ease-out;
+}
+
+/* Fade in title classes */
+.cinematic-title {
+  letter-spacing: 0.25em;
+  transition: letter-spacing 2.5s ease-out, opacity 1.5s ease-in-out;
+}
+
+.cinematic-title.loaded {
+  letter-spacing: 0.08em;
+}
+
+.glow-text {
+  text-shadow: var(--glow-pink);
+}
+
+.glow-border:focus-within {
+  box-shadow: var(--glow-pink);
+  border-color: var(--rose-primary);
+}
+
+/* Equalizer music bars */
+.equalizer-bar-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  width: 24px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.eq-bar {
+  width: 3px;
+  background-color: var(--rose-primary);
+  border-radius: 2px;
+  animation: eqBounce 1s infinite alternate ease-in-out;
+  height: 20%;
+}
+
+.equalizer-bar-container.paused .eq-bar {
+  animation-play-state: paused !important;
+  height: 20% !important;
+}
+
+.eq-1 { animation-delay: 0.1s; }
+.eq-2 { animation-delay: 0.4s; }
+.eq-3 { animation-delay: 0.2s; }
+.eq-4 { animation-delay: 0.5s; }
+
+@keyframes eqBounce {
+  0% { height: 20%; }
+  100% { height: 100%; }
+}
+
+/* Login Card Entry Animation */
+#login-screen {
+  z-index: 20;
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), #300318 0%, #060104 80%);
+}
+
+.login-card {
+  width: 90%;
+  max-width: 440px;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.92) translateY(20px);
+  filter: blur(10px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s ease;
+}
+
+#login-screen:not(.hidden) .login-card {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  filter: blur(0);
+}
+
+.love-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #fff;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.love-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--rose-primary);
+  box-shadow: 0 0 15px rgba(255, 77, 109, 0.4);
+}
+
+/* Validation card shaking response */
+.shake {
+  animation: shakeCard 0.6s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shakeCard {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+  40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+/* Button & Action Overrides */
+.btn-love {
+  background: linear-gradient(135deg, var(--rose-primary), var(--rose-dark));
+  color: white;
+  border: none;
+  box-shadow: var(--glow-pink);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-love::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transition: 0.5s;
+}
+
+.btn-love:hover::before {
+  left: 100%;
+}
+
+.btn-love:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: var(--glow-pink-strong);
+}
+
+/* Beating Login Success Button state */
+.btn-love.success-pulse {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.8) !important;
+  animation: buttonSuccessPulse 1.2s infinite ease-in-out;
+}
+
+@keyframes buttonSuccessPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+/* Dashboard Panel & Transitions */
+#main-content {
+  position: relative;
+  z-index: 10;
+  display: block;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.96) translateY(20px);
+  filter: blur(10px);
+  transition: opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), filter 1.8s ease, visibility 1.8s;
+  height: 100vh;
+  width: 100vw;
+}
+
+#main-content.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1) translateY(0);
+  filter: blur(0);
+}
+
+.dashboard-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Timeline elements */
+.timeline-container {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timeline-container::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  background: linear-gradient(to bottom, var(--rose-primary), var(--rose-dark), transparent);
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.timeline-item {
+  padding: 10px 40px;
+  position: relative;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.timeline-item::after {
+  content: '❤️';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  right: -12px;
+  top: 15px;
+  z-index: 5;
+  background: #060104;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 14px;
+  line-height: 24px;
+  box-shadow: 0 0 10px var(--rose-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline-left {
+  left: 0;
+}
+
+.timeline-right {
+  left: 50%;
+}
+
+.timeline-right::after {
+  left: -12px;
+}
+
+@media screen and (max-width: 768px) {
+  .timeline-container::after {
+    left: 20px;
+  }
+  .timeline-item {
+    width: 100%;
+    padding-left: 50px;
+    padding-right: 20px;
+  }
+  .timeline-left, .timeline-right {
+    left: 0;
+  }
+  .timeline-item::after {
+    left: 8px;
+    right: auto;
+  }
+}
+
+/* Polaroid Photos styling */
+.polaroid-card {
+  background: white;
+  padding: 12px 12px 24px 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  color: #333;
+}
+
+.polaroid-card:hover {
+  transform: translateY(-8px) rotate(0deg) scale(1.04) !important;
+  box-shadow: 0 18px 40px rgba(255, 77, 109, 0.35);
+  z-index: 10;
+}
+
+.polaroid-img-container {
+  width: 100%;
+  height: 220px;
+  background: #f0f0f0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.polaroid-caption {
+  font-family: var(--font-handwritten);
+  font-size: 1.8rem;
+  text-align: center;
+  margin-top: 12px;
+  color: #331018;
+}
+
+/* 3D Envelope Styling */
+.envelope-wrapper {
+  position: relative;
+  width: 320px;
+  height: 220px;
+  margin: 2rem auto;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #a91d3a;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  border-radius: 0 0 12px 12px;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+.envelope::before {
+  content: '';
+  position: absolute;
+  z-index: 5;
+  width: 0;
+  height: 0;
+  box-sizing: content-box !important;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-bottom: 110px solid #c72c48;
+  bottom: 0;
+  border-radius: 0 0 12px 12px;
+}
+
+.envelope::after {
+  content: '';
+  position: absolute;
+  z-index: 4;
+  width: 0;
+  height: 0;
+  box-sizing: content-box !important;
+  border-top: 110px solid transparent;
+  border-left: 160px solid #e03c5a;
+  border-bottom: 110px solid transparent;
+  bottom: 0;
+  left: 0;
+}
+
+.envelope-right-fold {
+  position: absolute;
+  z-index: 4;
+  border-top: 110px solid transparent;
+  border-right: 160px solid #e03c5a;
+  border-bottom: 110px solid transparent;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  box-sizing: content-box !important;
+}
+
+.flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  box-sizing: content-box !important;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-top: 115px solid #a91d3a;
+  transform-origin: top;
+  z-index: 10;
+  transition: transform 0.5s ease, z-index 0.3s ease;
+}
+
+/* Wax seal overlay */
+.wax-seal {
+  position: absolute;
+  top: 90px;
+  left: 135px;
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle, #e63946 0%, #a91d3a 80%);
+  border-radius: 50%;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.4);
+  transition: transform 0.3s ease, opacity 0.5s ease;
+  border: 2px solid #800f2f;
+}
+
+.wax-seal:hover {
+  transform: scale(1.1) rotate(5deg);
+  animation: sealShake 0.4s ease infinite;
+}
+
+.wax-seal::after {
+  content: '❤️';
+  font-size: 1.1rem;
+  color: #fff;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.5));
+}
+
+@keyframes sealShake {
+  0%, 100% { transform: scale(1.1) rotate(0deg); }
+  25% { transform: scale(1.1) rotate(-5deg); }
+  75% { transform: scale(1.1) rotate(5deg); }
+}
+
+.letter {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  width: 290px;
+  height: 190px;
+  background: #fffbf5;
+  padding: 20px;
+  box-sizing: border-box;
+  color: #331018;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 3;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.5s ease;
+}
+
+.letter h3 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  margin-top: 0;
+  border-bottom: 1px dashed rgba(169, 29, 58, 0.3);
+  padding-bottom: 5px;
+}
+
+.letter-text {
+  font-family: var(--font-handwritten);
+  font-size: 1.35rem;
+  line-height: 1.4;
+  height: 100px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+.envelope-wrapper.open .flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope-wrapper.open .letter {
+  transform: translateY(-130px);
+  z-index: 6;
+}
+
+.envelope-wrapper.open .envelope {
+  transform: translateY(40px);
+}
+
+/* Handwritten Letter Fullscreen Modal */
+.letter-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background: rgba(6, 1, 4, 0.9);
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s;
+}
+
+.letter-modal.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.letter-modal-content {
+  background: #fffdf9;
+  color: #2b0b12;
+  width: 92%;
+  max-width: 600px;
+  max-height: 85vh;
+  padding: 3.5rem 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(255, 77, 109, 0.3);
+  overflow-y: auto;
+  transform: scale(0.9);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  border: 6px double rgba(169, 29, 58, 0.15);
+}
+
+.letter-modal.visible .letter-modal-content {
+  transform: scale(1);
+}
+
+.letter-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 2rem;
+  color: #a91d3a;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.letter-close-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Relationship timer layouts */
+.counter-box {
+  min-width: 80px;
+  text-align: center;
+}
+
+.counter-value {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  text-shadow: var(--glow-pink);
+}
+
+/* Interactive elements in dashboard memories */
+.memory-moment-card {
+  overflow: hidden;
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+.memory-moment-card:hover {
+  border-color: rgba(255, 77, 109, 0.4);
+  box-shadow: 0 10px 25px rgba(255, 77, 109, 0.1);
+}
+
+/* Scroll reveal triggers */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}

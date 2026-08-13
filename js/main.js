@@ -509,7 +509,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: "blog", title: "Blog", subtitle: "Writings on tech & lessons learned", icon: "book-open", gridClass: "md:col-span-1 md:row-span-1", route: "#", glow: "rgba(132, 204, 22, 0.2)", iconColor: "text-neon-pink" },
     { id: "games", title: "Games Hub", subtitle: "Take a break, play classic arcade challenges", icon: "gamepad-2", gridClass: "md:col-span-2 md:row-span-1", route: "games.html", glow: "rgba(245, 158, 11, 0.25)", iconColor: "text-amber-500" },
     { id: "movies", title: "Movies", subtitle: "Cinematic favorites & rating logs", icon: "film", gridClass: "md:col-span-1 md:row-span-1", route: "#", glow: "rgba(239, 68, 68, 0.2)", iconColor: "text-red-500" },
-    { id: "love-core", title: "Love Core", subtitle: "Heartbeat timer & decryptor vault", icon: "heart", gridClass: "md:col-span-1 md:row-span-1", route: "love.html", glow: "rgba(244, 63, 94, 0.25)", iconColor: "text-neon-rose" },
+    { id: "love-core", title: "Love Core", subtitle: "Heartbeat timer & decryptor vault", icon: "heart", gridClass: "md:col-span-1 md:row-span-1", route: "love/index.html", glow: "rgba(244, 63, 94, 0.25)", iconColor: "text-neon-rose" },
     { id: "private", title: "Private Portal", subtitle: "Secure developer dashboard & vault", icon: "lock", gridClass: "md:col-span-4 md:row-span-1", route: "#", glow: "rgba(99, 102, 241, 0.2)", iconColor: "text-indigo-500" }
   ];
 

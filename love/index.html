@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For My Beautiful Grumpy ❤️</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            rose: {
+              450: '#ff6b8b',
+              550: '#e03c5a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if (localStorage.getItem('love_session') === 'true') {
+      document.write('<style id="session-style">#intro-screen, #login-screen { display: none !important; } #main-content { opacity: 1 !important; visibility: visible !important; transform: none !important; filter: none !important; }</style>');
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Audio Player (Soft Piano/Instrumental track) -->
+  <audio id="bg-music" loop src="assets/sudden_shower.mp3"></audio>
+
+  <!-- Continuous Background Particle Canvas -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- PHASE 1: ROMANTIC INTRO SCREEN -->
+  <div id="intro-screen" class="stage">
+    <div class="text-center px-4 relative z-20 flex flex-col items-center">
+      
+      <!-- Beating Heart Centerpiece Portal with Radiating Outline Rings -->
+      <div class="heart-interactive-wrapper">
+        <!-- Pulsing heart rings -->
+        <div class="heart-pulse-ring ring-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+        <div class="heart-pulse-ring ring-2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+
+        <!-- Center Beating Heart Portal -->
+        <div id="intro-heart" class="cursor-pointer relative z-10" onclick="triggerPortalTransition(event)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" 
+            class="w-32 h-32 md:w-40 md:h-40 pulse-heart text-rose-500 drop-shadow-[0_0_30px_rgba(255,77,109,0.95)]" 
+            viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+      </div>
+      
+      <!-- Titles & Instructions -->
+      <h1 id="intro-title" class="text-3xl md:text-5xl font-bold mb-4 opacity-0 transition-all duration-1000 ease-in-out font-serif text-pink-100 glow-text cinematic-title">
+        To My Beautiful Grumpy ❤️
+      </h1>
+      <p id="intro-subtitle" class="text-lg md:text-2xl opacity-0 transition-opacity duration-1000 ease-in-out text-pink-200 font-sans font-light tracking-wide">
+        Tap to enter our love stories
+      </p>
+    </div>
+  </div>
+
+  <!-- PHASE 2: ROMANTIC LOGIN SCREEN -->
+  <div id="login-screen" class="stage hidden">
+    <div class="login-card glass-panel z-20">
+      <!-- Icon & Welcome Header -->
+      <div id="login-card-heart" class="inline-block text-rose-500 text-6xl mb-4 pulse-heart">🌹</div>
+      <h2 class="text-2xl md:text-3xl font-extrabold text-pink-100 font-serif tracking-wide glow-text mb-1">
+        Welcome, Sayang. ❤️
+      </h2>
+      <p class="text-pink-300 text-sm mb-6">Only you know the way in.</p>
+      
+      <!-- Wrong Password Error Block -->
+      <div id="login-error" class="hidden mb-4 p-3.5 bg-red-950/50 border border-red-500/40 rounded-xl text-pink-200 text-sm flex items-center justify-center gap-2">
+        <span>Oops... that's not it, my love 😭❤️</span>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" class="space-y-5 text-left">
+        <div>
+          <label for="username" class="block text-pink-200 text-xs font-semibold uppercase tracking-wider mb-2">Name <span class="text-pink-400/80 normal-case font-medium ml-1">(username: yuunijamil)</span></label>
+          <input type="text" id="username" autocomplete="off" placeholder="My love's name..." required
+            class="love-input w-full px-4 py-3 rounded-xl text-sm transition-all focus:outline-none">
+        </div>
+        <div>
+          <label for="password" class="block text-pink-200 text-xs font-semibold uppercase tracking-wider mb-2">Password <span class="text-pink-400/80 normal-case font-medium ml-1">(tarikh kita)</span></label>
+          <input type="password" id="password" autocomplete="off" placeholder="Our special secret..." required
+            class="love-input w-full px-4 py-3 rounded-xl text-sm transition-all focus:outline-none">
+        </div>
+        <button type="submit" id="login-submit-btn" class="btn-love w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 text-white text-sm mt-8">
+          <span>Enter Our Love Stories</span>
+          <span class="heart-btn-icon text-lg">❤️</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PHASE 3: MAIN ROMANTIC DASHBOARD -->
+  <div id="main-content">
+    <!-- Sticky Navigation Bar -->
+    <nav class="sticky top-0 w-full z-50 glass-panel border-b border-white/5 py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
+      <div class="flex items-center gap-2 font-serif text-xl font-bold text-pink-100 glow-text cursor-pointer" onclick="scrollToTop()">
+        <span>You, Me And Us</span>
+        <span class="pulse-heart text-rose-500">❤️</span>
+      </div>
+      <div class="hidden lg:flex gap-8 text-sm font-semibold text-pink-200/80">
+        <a href="#our-story" class="hover:text-pink-100 transition-colors">Our Story</a>
+        <a href="#memories" class="hover:text-pink-100 transition-colors">Memories</a>
+        <a href="#reasons" class="hover:text-pink-100 transition-colors">Reasons</a>
+        <a href="#quiz-section" class="hover:text-pink-100 transition-colors">Mini Quiz</a>
+        <a href="#countdown" class="hover:text-pink-100 transition-colors">Timer</a>
+        <a href="#special-message" class="hover:text-pink-100 transition-colors">Love Letter</a>
+      </div>
+      
+      <!-- Equalizer + Log out buttons -->
+      <div class="flex items-center gap-5">
+        <!-- Floating Equalizer Music Control -->
+        <div id="music-toggle" class="equalizer-bar-container paused" onclick="toggleMusic(event)" title="Mute/Unmute Music">
+          <div class="eq-bar eq-1"></div>
+          <div class="eq-bar eq-2"></div>
+          <div class="eq-bar eq-3"></div>
+          <div class="eq-bar eq-4"></div>
+        </div>
+        <button onclick="logout()" class="px-4 py-1.5 text-xs bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-pink-200 transition">
+          Log Out
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="dashboard-hero py-24 relative overflow-hidden">
+      <!-- Glow background -->
+      <div class="absolute w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-rose-500/10 rounded-full blur-[120px] -z-10 pulse-heart"></div>
+      
+      <div class="max-w-3xl text-center px-6">
+        <!-- Circular Framed Childhood Picture -->
+        <div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-4 border-rose-500/40 shadow-[0_0_25px_rgba(255,77,109,0.4)] mb-8 transition-transform duration-500 hover:scale-105">
+          <img src="assets/childhood.jpg" alt="Childhood photo of Ayuni" class="w-full h-full object-cover">
+        </div>
+
+        <span class="inline-block px-4 py-1.5 bg-rose-500/15 border border-rose-500/30 text-rose-300 rounded-full text-xs font-bold tracking-widest uppercase mb-6 pulse-heart">
+          Specially For You
+        </span>
+        <h1 class="text-4xl md:text-7xl font-bold tracking-tight mb-6 font-serif text-pink-100 glow-text leading-tight">
+          For You,<br>My Beautiful Grumpy ❤️
+        </h1>
+        <p class="text-lg md:text-2xl text-pink-200/90 font-light max-w-xl mx-auto mb-12">
+          A little space I built just for you.
+        </p>
+        <a href="#our-story" class="inline-flex items-center gap-2 text-pink-300 border-b border-pink-300/30 hover:border-pink-300 pb-1 transition-all duration-300 group">
+          <span>Explore Our World</span>
+          <span class="group-hover:translate-y-1 transition-transform">↓</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- SECTION 1: OUR STORY -->
+    <section id="our-story" class="py-24 px-6 max-w-6xl mx-auto scroll-reveal">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-5xl font-bold font-serif mb-4 text-pink-100 glow-text">Our Love Story</h2>
+        <div class="w-12 h-1 bg-rose-500 mx-auto rounded-full"></div>
+        <p class="text-pink-300 mt-4 text-sm md:text-base">The beautiful milestones that shape our journey together.</p>
+      </div>
+
+      <div class="timeline-container mt-12">
+        <!-- Milestone 1: The First Sight -->
+        <div class="timeline-item timeline-left">
+          <div class="glass-panel p-6 hover:shadow-[0_0_15px_rgba(255,77,109,0.15)] transition-all duration-300">
+            <span class="text-rose-400 text-xs font-bold uppercase tracking-wider block mb-2">First Sight</span>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-2">Matriculation & The Bus Ride</h3>
+            <p class="text-pink-200/85 text-sm leading-relaxed">
+              I first saw you back in matriculation college, but it was just a passing glance. Later, we ended up at the same university. I saw you again on a bus heading to Terengganu, and my heart instantly knew you were the one. I looked you up on Instagram, and that was the spark of our story.
+            </p>
+          </div>
+        </div>
+
+        <!-- Milestone 2: The First Instagram Chat -->
+        <div class="timeline-item timeline-right">
+          <div class="glass-panel p-6 hover:shadow-[0_0_15px_rgba(255,77,109,0.15)] transition-all duration-300">
+            <span class="text-rose-400 text-xs font-bold uppercase tracking-wider block mb-2">First Connection</span>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-2">Instagram to WhatsApp</h3>
+            <p class="text-pink-200/85 text-sm leading-relaxed">
+              I first messaged you on Instagram right after you finished your driving lessons. I asked you where you were getting your license, and from that single simple question, we hit it off and moved our conversations over to WhatsApp.
+            </p>
+          </div>
+        </div>
+
+        <!-- Milestone 3: An Unspoken Connection -->
+        <div class="timeline-item timeline-left">
+          <div class="glass-panel p-6 hover:shadow-[0_0_15px_rgba(255,77,109,0.15)] transition-all duration-300">
+            <span class="text-rose-400 text-xs font-bold uppercase tracking-wider block mb-2">Growing Closer</span>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-2">Endless Chats & Unspoken Love</h3>
+            <p class="text-pink-200/85 text-sm leading-relaxed">
+              Our chats became endless, running day and night. We grew closer and closer until, without even realizing it, we became a couple naturally, without ever needing an official declaration. Our hearts just knew we belonged together.
+            </p>
+          </div>
+        </div>
+
+        <!-- Milestone 4: Spending Time Together & First Date -->
+        <div class="timeline-item timeline-right">
+          <div class="glass-panel p-6 hover:shadow-[0_0_15px_rgba(255,77,109,0.15)] transition-all duration-300">
+            <span class="text-rose-400 text-xs font-bold uppercase tracking-wider block mb-2">Our Hangouts</span>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-2">Kksam Chats & Hanasy Seafood</h3>
+            <p class="text-pink-200/85 text-sm leading-relaxed">
+              We spent our days at Kksam—doing work, listening to music, playing games, and even watching Arsenal matches together. Our first real date was at Hanasy Seafood behind UMT. Meeting you face-to-face, you looked absolutely breathtaking, elegant, and beautiful.
+            </p>
+          </div>
+        </div>
+
+        <!-- Milestone 5: The Storm & Reconnecting -->
+        <div class="timeline-item timeline-left">
+          <div class="glass-panel p-6 hover:shadow-[0_0_15px_rgba(255,77,109,0.15)] transition-all duration-300">
+            <span class="text-rose-400 text-xs font-bold uppercase tracking-wider block mb-2">The Storm</span>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-2">Fighting For Us</h3>
+            <p class="text-pink-200/85 text-sm leading-relaxed">
+              I made a huge mistake that led to us breaking up. We went our separate ways and you refused to talk to me. I pleaded and begged to get you back, but it was so hard. Unable to move on, I resolved to confront you in person right after the semester break to win you back.
+            </p>
+          </div>
+        </div>
+
+        <!-- Milestone 6: Now & Forever -->
+        <div class="timeline-item timeline-right">
+          <div class="glass-panel p-6 hover:shadow-[0_0_15px_rgba(255,77,109,0.15)] transition-all duration-300">
+            <span class="text-rose-400 text-xs font-bold uppercase tracking-wider block mb-2">Now & Forever</span>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-2">Gamelan, Frisbee & Our Colors</h3>
+            <p class="text-pink-200/85 text-sm leading-relaxed">
+              We got back together and have been inseparable since. I was there watching you play Gamelan, and you were there supporting me at Frisbee. You are with me through all my dark and bright times—my black and white. I love you so much, my beautiful grumpy.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: OUR MEMORIES -->
+    <section id="memories" class="py-24 bg-black/10 scroll-reveal">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold font-serif mb-4 text-pink-100 glow-text">Our Precious Memories</h2>
+          <div class="w-12 h-1 bg-rose-500 mx-auto rounded-full"></div>
+          <p class="text-pink-300 mt-4 text-sm md:text-base">Snapshots of our life filled with sweet laughter and love.</p>
+        </div>
+
+        <div class="flex flex-wrap gap-8 justify-center mt-12">
+          <!-- Memory 1 -->
+          <div class="polaroid-card w-64 -rotate-3">
+            <div class="polaroid-img-container">
+              <img src="assets/memory1.png" alt="Precious Moment 1" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">When you accompanied me to Frisbee</div>
+          </div>
+          
+          <!-- Memory 2 -->
+          <div class="polaroid-card w-64 rotate-2">
+            <div class="polaroid-img-container">
+              <img src="assets/memory2.png" alt="Precious Moment 2" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Always supporting my business</div>
+          </div>
+
+          <!-- Memory 3 -->
+          <div class="polaroid-card w-64 -rotate-1">
+            <div class="polaroid-img-container">
+              <img src="assets/memory3.png" alt="Precious Moment 3" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Our bus rides back home together</div>
+          </div>
+
+          <!-- Memory 4 -->
+          <div class="polaroid-card w-64 rotate-3">
+            <div class="polaroid-img-container">
+              <img src="assets/memory4.png" alt="Precious Moment 4" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Hanging out at Limbong together</div>
+          </div>
+
+          <!-- Memory 5 -->
+          <div class="polaroid-card w-64 -rotate-2">
+            <div class="polaroid-img-container">
+              <img src="assets/memory5.png" alt="Precious Moment 5" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Another beautiful day at Limbong</div>
+          </div>
+
+          <!-- Memory 6 -->
+          <div class="polaroid-card w-64 rotate-1">
+            <div class="polaroid-img-container">
+              <img src="assets/memory6.png" alt="Precious Moment 6" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Date night at Pantai Batu Buruk</div>
+          </div>
+
+          <!-- Memory 7 -->
+          <div class="polaroid-card w-64 -rotate-3">
+            <div class="polaroid-img-container">
+              <img src="assets/memory7.png" alt="Precious Moment 7" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Our absolute favorite date ❤️</div>
+          </div>
+
+          <!-- Memory 8 -->
+          <div class="polaroid-card w-64 rotate-2">
+            <div class="polaroid-img-container">
+              <img src="assets/memory8.png" alt="Precious Moment 8" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Visiting the bookstore together</div>
+          </div>
+
+          <!-- Memory 9 -->
+          <div class="polaroid-card w-64 -rotate-1">
+            <div class="polaroid-img-container">
+              <img src="assets/memory9.png" alt="Precious Moment 9" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Another sweet date at Limbong</div>
+          </div>
+
+          <!-- Memory 10 -->
+          <div class="polaroid-card w-64 rotate-3">
+            <div class="polaroid-img-container">
+              <img src="assets/memory10.png" alt="Precious Moment 10" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Beautiful times at Pantai Tok Jembal</div>
+          </div>
+
+          <!-- Memory 11 -->
+          <div class="polaroid-card w-64 -rotate-2">
+            <div class="polaroid-img-container">
+              <img src="assets/memory11.png" alt="Precious Moment 11" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Accompanying me back home again</div>
+          </div>
+
+          <!-- Memory 12 -->
+          <div class="polaroid-card w-64 rotate-1">
+            <div class="polaroid-img-container">
+              <img src="assets/memory12.png" alt="Precious Moment 12" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Helping you move stuff for the SKA program</div>
+          </div>
+
+          <!-- Memory 13 -->
+          <div class="polaroid-card w-64 -rotate-3">
+            <div class="polaroid-img-container">
+              <img src="assets/memory13.png" alt="Precious Moment 13" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Accompanying you for FYP sampling</div>
+          </div>
+
+          <!-- Memory 14 -->
+          <div class="polaroid-card w-64 rotate-2">
+            <div class="polaroid-img-container">
+              <img src="assets/memory14.png" alt="Precious Moment 14" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Cafe dates & flying a kite together</div>
+          </div>
+
+          <!-- Memory 15 -->
+          <div class="polaroid-card w-64 -rotate-2">
+            <div class="polaroid-img-container">
+              <img src="assets/memory15.png" alt="Precious Moment 15" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Our fun jogging dates together</div>
+          </div>
+
+          <!-- Memory 16 -->
+          <div class="polaroid-card w-64 rotate-3">
+            <div class="polaroid-img-container">
+              <img src="assets/memory16.png" alt="Precious Moment 16" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Another fun date at Mayang Mall</div>
+          </div>
+
+          <!-- Memory 17 -->
+          <div class="polaroid-card w-64 -rotate-1">
+            <div class="polaroid-img-container">
+              <img src="assets/memory17.png" alt="Precious Moment 17" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Our very first date ❤️</div>
+          </div>
+
+          <!-- Memory 18 -->
+          <div class="polaroid-card w-64 rotate-2">
+            <div class="polaroid-img-container">
+              <img src="assets/memory18.jpg" alt="Precious Moment 18" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Dating di Chinatown ❤️</div>
+          </div>
+
+          <!-- Memory 19 -->
+          <div class="polaroid-card w-64 -rotate-3">
+            <div class="polaroid-img-container">
+              <img src="assets/memory19.jpg" alt="Precious Moment 19" class="w-full h-full object-cover">
+            </div>
+            <div class="polaroid-caption">Dia teman saya masuk fun run 🏃‍♂️</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- SECTION 4: REASONS I LOVE YOU -->
+    <section id="reasons" class="py-24 bg-black/10 scroll-reveal">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold font-serif mb-4 text-pink-100 glow-text">Reasons I Love You</h2>
+          <div class="w-12 h-1 bg-rose-500 mx-auto rounded-full"></div>
+          <p class="text-pink-300 mt-4 text-sm md:text-base">A few of the thousand reasons why my heart chose you.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+          <!-- Reason 1 -->
+          <div class="glass-panel-light p-8 reason-card hover:shadow-[0_12px_24px_rgba(255,77,109,0.15)] relative group overflow-hidden">
+            <div class="text-rose-450 text-4xl mb-4">✨</div>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-3">Your Sweet Smile</h3>
+            <p class="text-pink-200/80 text-sm leading-relaxed">
+              Your smile brightens even my darkest days. Seeing you happy is the single greatest joy in my life.
+            </p>
+          </div>
+
+          <!-- Reason 2 -->
+          <div class="glass-panel-light p-8 reason-card hover:shadow-[0_12px_24px_rgba(255,77,109,0.15)] relative group overflow-hidden">
+            <div class="text-rose-450 text-4xl mb-4">👂</div>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-3">Always Understanding</h3>
+            <p class="text-pink-200/80 text-sm leading-relaxed">
+              How you listen to my worries, dreams, and exhaustion makes me feel valued and completely safe by your side.
+            </p>
+          </div>
+
+          <!-- Reason 3 -->
+          <div class="glass-panel-light p-8 reason-card hover:shadow-[0_12px_24px_rgba(255,77,109,0.15)] relative group overflow-hidden">
+            <div class="text-rose-450 text-4xl mb-4">🤍</div>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-3">Your Kind Heart</h3>
+            <p class="text-pink-200/80 text-sm leading-relaxed">
+              Your kindness and gentle nature in treating everyone around you is the most beautiful thing I've ever known.
+            </p>
+          </div>
+
+          <!-- Reason 4 -->
+          <div class="glass-panel-light p-8 reason-card hover:shadow-[0_12px_24px_rgba(255,77,109,0.15)] relative group overflow-hidden">
+            <div class="text-rose-450 text-4xl mb-4">🎵</div>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-3">Your Joyful Laughter</h3>
+            <p class="text-pink-200/80 text-sm leading-relaxed">
+              The sound of your laughter is my absolute favorite melody. It has a special magic that melts away all my stress.
+            </p>
+          </div>
+
+          <!-- Reason 5 -->
+          <div class="glass-panel-light p-8 reason-card hover:shadow-[0_12px_24px_rgba(255,77,109,0.15)] relative group overflow-hidden">
+            <div class="text-rose-450 text-4xl mb-4">🛡️</div>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-3">Endless Support</h3>
+            <p class="text-pink-200/80 text-sm leading-relaxed">
+              When the world feels heavy, you are always there to whisper words of encouragement and remind me of my strength.
+            </p>
+          </div>
+
+          <!-- Reason 6 -->
+          <div class="glass-panel-light p-8 reason-card hover:shadow-[0_12px_24px_rgba(255,77,109,0.15)] relative group overflow-hidden">
+            <div class="text-rose-450 text-4xl mb-4">🌱</div>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-3">Freedom to Be Myself</h3>
+            <p class="text-pink-200/80 text-sm leading-relaxed">
+              With you, I can be my true, authentic self. No pretenses, no secrets, just the absolute honesty of our love.
+            </p>
+          </div>
+
+          <!-- Reason 7 -->
+          <div class="glass-panel-light p-8 reason-card hover:shadow-[0_12px_24px_rgba(255,77,109,0.15)] relative group overflow-hidden">
+            <div class="text-rose-450 text-4xl mb-4">🧸</div>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-3">Your Sweet Sleepy Voice</h3>
+            <p class="text-pink-200/80 text-sm leading-relaxed">
+              The way you speak to me when you're sleepy or just waking up. It is the absolute cutest and most comforting sound in the world.
+            </p>
+          </div>
+
+          <!-- Reason 8 -->
+          <div class="glass-panel-light p-8 reason-card hover:shadow-[0_12px_24px_rgba(255,77,109,0.15)] relative group overflow-hidden">
+            <div class="text-rose-450 text-4xl mb-4">🤪</div>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-3">Our Silly Humour</h3>
+            <p class="text-pink-200/80 text-sm leading-relaxed">
+              All the silly baby talks, inside jokes, and weird nicknames that only the two of us understand. Life is never boring with you.
+            </p>
+          </div>
+
+          <!-- Reason 9 -->
+          <div class="glass-panel-light p-8 reason-card hover:shadow-[0_12px_24px_rgba(255,77,109,0.15)] relative group overflow-hidden">
+            <div class="text-rose-450 text-4xl mb-4">🌸</div>
+            <h3 class="text-xl font-bold font-serif text-pink-100 mb-3">Your Beautiful Soul</h3>
+            <p class="text-pink-200/80 text-sm leading-relaxed">
+              How caring, gentle, and lovely you are. Seeing your kindness to others makes me admire you and fall for you even more every day.
+            </p>
+          </div>
+        </div>
+
+        <!-- More Reasons Button -->
+        <div class="text-center mt-12">
+          <button id="more-reasons-btn" class="px-8 py-3.5 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/40 rounded-full text-pink-200 transition-all font-semibold tracking-wide flex items-center gap-2 mx-auto" onclick="showMoreReasonsError(event)">
+            <span>More Reasons...</span>
+            <span>✨</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4.6: MINI QUIZ GAME -->
+    <section id="quiz-section" class="py-24 bg-black/5 scroll-reveal">
+      <div class="max-w-2xl mx-auto px-6 text-center">
+        <div class="mb-12">
+          <h2 class="text-3xl md:text-5xl font-bold font-serif mb-4 text-pink-100 glow-text">How Well Do You Know Us? 💖</h2>
+          <div class="w-12 h-1 bg-rose-500 mx-auto rounded-full mb-4"></div>
+          <p class="text-pink-300 text-sm md:text-base">Answer these questions to test your memory, Sayang!</p>
+        </div>
+
+        <!-- Quiz Container -->
+        <div class="glass-panel p-8 md:p-10 relative overflow-hidden min-h-[380px] flex flex-col justify-between" id="quiz-card">
+          <!-- Question Progress -->
+          <div class="flex justify-between items-center text-xs text-pink-300/60 font-semibold mb-6">
+            <span id="quiz-progress-text">Question 1 of 10</span>
+            <span id="quiz-score-text">Score: 0</span>
+          </div>
+
+          <!-- Question Body -->
+          <div id="quiz-body" class="flex-grow flex flex-col justify-center">
+            <!-- Dynamic content injected by JS -->
+          </div>
+          
+          <!-- Bottom actions -->
+          <div class="mt-8 flex justify-end" id="quiz-actions">
+            <!-- Next button injected dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: RELATIONSHIP COUNTER -->
+    <section id="countdown" class="py-24 scroll-reveal">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-5xl font-bold font-serif mb-4 text-pink-100 glow-text">Time Spent Together</h2>
+        <div class="w-12 h-1 bg-rose-500 mx-auto rounded-full mb-8"></div>
+        <p class="text-pink-200 max-w-md mx-auto text-sm md:text-base mb-12">
+          Every second spent with you is a blessing, and here is how long we have been writing our story together:
+        </p>
+
+        <!-- Dynamic Counter Boxes -->
+        <div class="flex flex-wrap justify-center gap-6 md:gap-8 mt-6">
+          <div class="glass-panel p-4 md:p-6 counter-box flex-1 min-w-[100px] max-w-[140px]">
+            <div id="years" class="text-3xl md:text-5xl font-bold text-rose-400 counter-value">00</div>
+            <div class="text-xs uppercase tracking-wider text-pink-300 mt-2">Years</div>
+          </div>
+          <div class="glass-panel p-4 md:p-6 counter-box flex-1 min-w-[100px] max-w-[140px]">
+            <div id="months" class="text-3xl md:text-5xl font-bold text-rose-400 counter-value">00</div>
+            <div class="text-xs uppercase tracking-wider text-pink-300 mt-2">Months</div>
+          </div>
+          <div class="glass-panel p-4 md:p-6 counter-box flex-1 min-w-[100px] max-w-[140px]">
+            <div id="days" class="text-3xl md:text-5xl font-bold text-rose-400 counter-value">00</div>
+            <div class="text-xs uppercase tracking-wider text-pink-300 mt-2">Days</div>
+          </div>
+          <div class="glass-panel p-4 md:p-6 counter-box flex-1 min-w-[100px] max-w-[140px]">
+            <div id="hours" class="text-3xl md:text-5xl font-bold text-rose-400 counter-value">00</div>
+            <div class="text-xs uppercase tracking-wider text-pink-300 mt-2">Hours</div>
+          </div>
+          <div class="glass-panel p-4 md:p-6 counter-box flex-1 min-w-[100px] max-w-[140px]">
+            <div id="minutes" class="text-3xl md:text-5xl font-bold text-rose-400 counter-value">00</div>
+            <div class="text-xs uppercase tracking-wider text-pink-300 mt-2">Minutes</div>
+          </div>
+          <div class="glass-panel p-4 md:p-6 counter-box flex-1 min-w-[100px] max-w-[140px]">
+            <div id="seconds" class="text-3xl md:text-5xl font-bold text-rose-400 counter-value">00</div>
+            <div class="text-xs uppercase tracking-wider text-pink-300 mt-2">Seconds</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: LOVE LETTER ENVELOPE -->
+    <section id="special-message" class="py-24 bg-black/10 px-6 scroll-reveal">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="mb-12">
+          <h2 class="text-3xl md:text-5xl font-bold font-serif mb-4 text-pink-100 glow-text">A Special Letter For You</h2>
+          <div class="w-12 h-1 bg-rose-500 mx-auto rounded-full"></div>
+          <p class="text-pink-300 mt-4 text-sm md:text-base">Break the wax seal below to open my secret letter to you.</p>
+        </div>
+
+        <!-- 3D Envelope Wrapper -->
+        <div class="relative py-16 flex justify-center items-center">
+          <div id="envelope-wrapper" class="envelope-wrapper">
+            <!-- Wax Seal Component -->
+            <div id="wax-seal" class="wax-seal" onclick="crackWaxSeal(event)"></div>
+            
+            <div class="envelope" onclick="toggleEnvelope()">
+              <div class="flap"></div>
+              <div class="envelope-right-fold"></div>
+              <div class="letter">
+                <h3 class="text-center text-rose-800 text-lg font-bold">Love Letter</h3>
+                <div class="letter-text text-center text-rose-950 font-medium mt-4">
+                  Break the wax seal to open my full letter, Sayang...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Floating Letter Modal -->
+    <div id="letter-modal" class="letter-modal" onclick="closeLetterModal()">
+      <div class="letter-modal-content" onclick="event.stopPropagation()">
+        <span class="letter-close-btn" onclick="closeLetterModal()">&times;</span>
+        <div class="text-center mb-6">
+          <div class="text-rose-500 text-3xl mb-2">❤️</div>
+          <h2 class="text-3xl font-serif text-rose-800 font-bold border-b border-rose-200 pb-3">To My Beautiful Grumpy,</h2>
+        </div>
+        <div class="font-handwritten text-2xl md:text-3xl text-rose-950 leading-loose space-y-6">
+          <p>To my beautiful grumpy,</p>
+          <p>
+            Since the first day we started walking together, my life has become infinitely more beautiful. Every moment, conversation, and smile we share is a precious memory I will hold onto forever.
+          </p>
+          <p>
+            This little website is a witness to my love for you. Here, I've gathered pieces of our story, the reasons I fell for you, and the passage of time we've shared.
+          </p>
+          <p>
+            Thank you for being patient with me, for loving me just as I am, and for being the rainbow after the storm in my life.
+          </p>
+          <p>
+            I am so sorry for all the times I made you angry, sulky, or cry. I know I might not be the perfect boyfriend for you, but I promise to keep trying and improving myself to be a better boyfriend every single day.
+          </p>
+          <p>
+            I promise to always try my best to make you smile, to support you in every dream you chase, and to love you day by day, more than yesterday.
+          </p>
+          <p class="text-right mt-12 font-serif text-lg tracking-wide text-rose-850">
+            With all my love,<br>
+            <span class="font-handwritten text-3xl text-rose-950">Awang Busyuk ❤️</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cute Error Modal -->
+    <div id="error-modal" class="letter-modal" onclick="closeErrorModal()">
+      <div class="letter-modal-content max-w-md text-center" 
+           style="background: rgba(30, 5, 10, 0.95) !important; 
+                  color: #ffe4e6 !important; 
+                  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+                  box-shadow: 0 20px 50px rgba(239, 68, 68, 0.2) !important;"
+           onclick="event.stopPropagation()">
+        <span class="letter-close-btn" style="color: #ef4444 !important;" onclick="closeErrorModal()">&times;</span>
+        <div class="text-red-500 text-6xl mb-4 animate-bounce">⚠️</div>
+        <h2 class="text-2xl font-bold text-red-300 font-serif mb-2">SYSTEM ERROR</h2>
+        <div class="text-pink-100 font-sans text-base leading-relaxed space-y-4 px-2">
+          <p class="font-mono text-xs text-red-400 uppercase tracking-widest bg-black/40 py-1.5 rounded-lg border border-red-900/50">Error Code: LOVE_OVERFLOW_020524</p>
+          <p class="font-serif text-lg text-pink-200 italic pt-2">
+            "There is no reason to not love you, because you are my absolute everything. Every little thing you do makes me fall for you all over again, Sayang. ❤️"
+          </p>
+          <p class="text-xs text-pink-300/60 font-light">
+            (System has crashed due to excessive love. No solutions found because you are perfect.)
+          </p>
+        </div>
+        <button onclick="closeErrorModal()" class="mt-8 px-6 py-2.5 bg-red-800 hover:bg-red-700 text-white rounded-xl text-sm font-semibold transition-all">
+          Close Window
+        </button>
+      </div>
+    </div>
+
+    <!-- SECTION 7: FINAL LOVE MESSAGE / FOOTER -->
+    <footer class="py-24 bg-black/30 border-t border-white/5 relative z-10">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <div class="text-rose-500 text-4xl mb-6 pulse-heart">❤️</div>
+        <h2 class="text-2xl md:text-4xl font-serif text-pink-100 glow-text mb-4">
+          Thank you for coming into my life. ❤️
+        </h2>
+        <p class="text-lg md:text-xl text-pink-300 font-light italic mb-8">
+          "I love you, always."
+        </p>
+        <p class="text-xs text-pink-200/40">
+          Made with love &copy; 2025. Dedicated to you, Sayang.
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
