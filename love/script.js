@@ -1487,6 +1487,30 @@ function initFlowerRain() {
     flowerCanvas.addEventListener('mousedown', triggerSpawn);
     flowerCanvas.addEventListener('touchstart', triggerSpawn, { passive: true });
   }
+  
+  // Handle explicit click and touchstart on FAB with stopPropagation and preventDefault
+  const fab = document.getElementById('flower-fab');
+  if (fab) {
+    const handleFabTrigger = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openFlowerRain();
+    };
+    fab.addEventListener('click', handleFabTrigger);
+    fab.addEventListener('touchstart', handleFabTrigger, { passive: false });
+  }
+
+  // Handle explicit click and touchstart on Close Button with stopPropagation and preventDefault
+  const closeBtn = document.querySelector('.flower-close-btn');
+  if (closeBtn) {
+    const handleCloseTrigger = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeFlowerRain();
+    };
+    closeBtn.addEventListener('click', handleCloseTrigger);
+    closeBtn.addEventListener('touchstart', handleCloseTrigger, { passive: false });
+  }
 }
 
 // Show/Hide Floating Action Button

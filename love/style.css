@@ -845,7 +845,8 @@ body.warp-zoomed {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  z-index: 40;
+  z-index: 999;
+  pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -895,7 +896,7 @@ body.warp-zoomed {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 100;
+  z-index: 998;
   background: radial-gradient(circle at center, #1b020c 0%, #050003 100%);
   opacity: 0;
   visibility: hidden;
@@ -925,7 +926,8 @@ body.warp-zoomed {
   position: absolute;
   top: 24px;
   right: 24px;
-  z-index: 10;
+  z-index: 999;
+  pointer-events: auto;
   width: 48px;
   height: 48px;
   border-radius: 50%;
